@@ -1,0 +1,10 @@
+flask
+flask-restx
+flask-sqlalchemy
+pymysql
+flask-migrate
+flask-restful
+flask-jwt-extended
+pyjwt
+flask-marshmallow
+marshmallow-sqlalchemy
