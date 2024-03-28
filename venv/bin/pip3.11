@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/home/aishni.narain@intelegencia.com/Desktop/Library System Api/venv/bin/python3" "$0" "$@"
+'''exec' "/home/aishni.narain@intelegencia.com/Desktop/Library System Api/Library-Management-System-Api/venv/bin/python3" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re
