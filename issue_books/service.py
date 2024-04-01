@@ -41,12 +41,12 @@ class Issue_Books():
             return make_response(jsonify({'message':'Invalid student id'}))
         else:
             existing_borrow = Borrow.query.filter_by(student_id=data['student_id'], books_id=data['book_id']).first()
-            if existing_borrow:
+            if existing_borrow and not existing_borrow.status == 'Returned':
                 return make_response(jsonify({'message': 'Student has already borrowed this book'}), 400)
             borrow_data = Borrow(issue_date = issue_date, due_date = due_date,issued_by = current_user.id,student_id = data['student_id'], books_id = data['book_id'])
             
-            max_books = Borrow.query.filter(Borrow.student_id == data['student_id']).count()
-            if max_books >= 2 or (Borrow.status == 'Returned' or Borrow.status == 'Return Request Initiated'):
+            max_books = Borrow.query.filter((Borrow.books_id == data['book_id']) & (Borrow.status != 'Returned')).count()
+            if max_books >= 2 and not(Borrow.status == 'Returned' or Borrow.status == 'Return Request Initiated'):
                 return make_response(jsonify({'message':'Sorry, student cannot borrow more than 2 books'}))
                 
             db.session.add(borrow_data)
@@ -80,7 +80,6 @@ class Issue_Books():
                         return jsonify({'message':'Return Request has already been initiated!'})
                     else:
                         data4 = Books.query.filter(Books.id == info2.books_id).first()
-                        # data4.available_copies = ((data4.available_copies)+1)
                         fine, days, current_date = calculate_fine(info2.due_date)
                         info2.fine = fine
                         info2.fine_days = days
@@ -107,8 +106,6 @@ class Issue_Books():
                         data4 = Books.query.filter(Books.id == info2.books_id).first()
                         data4.available_copies = ((data4.available_copies)+1)
                         fine, days, current_date = calculate_fine(info2.due_date)
-                        info2.fine = info2.fine
-                        info2.fine_days = info2.fine_days
                         info2.return_date = current_date
                         info2.status = 'Returned'
                         db.session.commit()
