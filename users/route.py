@@ -1,7 +1,7 @@
 from app import app, Resource, ns
 from flask import request
 from users.service import Users
-from users.api_model import register_model,login_model
+from users.api_model import register_model,login_model,update_model
 from datetime import datetime
 
 user = Users()
@@ -74,6 +74,7 @@ class GetUsersById(Resource):
         return f"data="", error={True}, code='405', message={message}, details=''"
     
     @ns.doc(security = [{'Bearer':[]}])
+    @ns.expect(update_model)
     def put(self,id):
         if request.method=='PUT':
             return user.update_user(id, request.json)
