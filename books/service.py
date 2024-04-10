@@ -7,8 +7,26 @@ from middleware import access_required
 from app import ns
 from schemas import BooksSchema
 
+class BookMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+    
+    
 #Defining the book service with all methods
-class Book():
+class Book(metaclass=BookMeta):
+    
+    @staticmethod
+    def get_books_schema():
+        if not hasattr(Book, "_books_schema_instance"):
+            Book._books_schema_instance = BooksSchema()
+        return Book._books_schema_instance
+    
     @jwt_required(refresh=False)
     @access_required(['Admin','Librarian','Student','Guest'],['2'])
     def get_books_inventory(self,page,per_page,title,author,publisher):
@@ -30,7 +48,10 @@ class Book():
     def add_book_inventory(self,data):
         data = request.get_json()
         
-        errors = BooksSchema().validate(data)
+        # Get singleton instance of BooksSchema
+        books_schema = self.get_books_schema()
+        
+        errors = books_schema.validate(data)
         if errors:
             return errors, 422
         
