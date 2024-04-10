@@ -3,7 +3,7 @@ from flask_restx import Api,Resource
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager,create_access_token,jwt_required
 from flask_jwt_extended.exceptions import RevokedTokenError,NoAuthorizationError
-from extensions import db, ma
+from extensions import db, ma, mail
 from models import TokenBlockList,User
 
 jwt = JWTManager()
@@ -19,6 +19,7 @@ db.init_app(app)
 jwt.init_app(app)
 ma.init_app(app)
 migrate = Migrate(app, db)
+mail.init_app(app)
 
 #swagger documentation
 api = Api(app, version='1.0', title='Library Management System Api',description='This is a sample API documentation for Library Management System. This documentation will provide all details related to the operations performed in a library.The Library Management System repository - https://github.com/AishniNarain/Library-Management-System-Api')

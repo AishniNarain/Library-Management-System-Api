@@ -8,3 +8,4 @@ flask-jwt-extended
 pyjwt
 flask-marshmallow
 marshmallow-sqlalchemy
+flask-mail
