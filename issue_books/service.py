@@ -3,6 +3,7 @@ from extensions import db, mail
 from models import User,TokenBlockList,Role,RolesandPermissions,Books,Borrow
 from datetime import date,timedelta,datetime
 from flask_jwt_extended import JWTManager,create_access_token, create_refresh_token, current_user, get_jwt,jwt_required
+from flask_mail import Message
 from middleware import role, roles_required, access_required
 from schemas import IssueBooksSchema
 from app import ns,jwt
@@ -21,6 +22,19 @@ class Subject:
         for observer in self.observers:
             observer.update(message)
 
+#defining Email Observer class
+class EmailObserver:
+    def __init__(self,mail):
+        self.mail = mail
+        
+    def update(self,recipients,message,due_date):
+        msg = Message('Notification',
+                        sender = 'aishninarain2000@gmail.com',
+                        recipients = recipients)
+        msg.body = f"Notification : {message}, {due_date}"
+        self.mail.send(msg)
+        
+email_observer = EmailObserver(mail)
 # subject = Subject()
 
 class Issue_Books(Subject):
@@ -138,6 +152,7 @@ class Issue_Books(Subject):
         for info in data:
             data1 = Books.query.filter_by(id=info.books_id).first()
             data2 = User.query.filter_by(id=info.student_id).first()
+            email = data2.email
             data3 = User.query.filter_by(id=info.issued_by).first()
             fine, days, current_date = calculate_fine(info.due_date)
 
@@ -163,14 +178,12 @@ class Issue_Books(Subject):
                 'student_name': data2.username,
                 'book_name': data1.title,
                 'return_date': info.return_date,
-                'message': message
+                'message': message,
+                'email':email
             })
 
-        for row in response_data:
-            message = row['message']
             
-            # Notify observers with the your message
-            self.notify(message)
+            email_observer.update([email],message,info.due_date)
 
         return make_response(jsonify({'data': response_data}), 200)
 

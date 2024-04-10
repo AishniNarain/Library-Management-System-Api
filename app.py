@@ -3,6 +3,7 @@ from flask_restx import Api,Resource
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager,create_access_token,jwt_required
 from flask_jwt_extended.exceptions import RevokedTokenError,NoAuthorizationError
+from sqlalchemy import or_
 from extensions import db, ma, mail
 from models import TokenBlockList,User
 
@@ -38,8 +39,8 @@ api.authorizations = {
 @jwt.user_lookup_loader
 def user_lookup_callback(jwt_header, jwt_data):
     identity = jwt_data['sub']
-    result = User.query.filter_by(username = identity).one_or_none()
-    return result
+    user = User.query.filter(or_(User.username == identity, User.email == identity)).one_or_none()
+    return user
 
 # error handlers
 @jwt_required(refresh=True)
