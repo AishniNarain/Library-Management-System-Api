@@ -1,6 +1,6 @@
 from flask import make_response, jsonify,request
 from extensions import db, mail
-from issue_books.route import EmailObserver
+# from issue_books.route import EmailObserver
 from models import User,TokenBlockList,Role,RolesandPermissions,Books,Borrow
 from datetime import date,timedelta,datetime
 from flask_jwt_extended import JWTManager,create_access_token, create_refresh_token, current_user, get_jwt,jwt_required
@@ -23,8 +23,7 @@ class Subject:
             observer.update(message)
             
 subject = Subject()
-email_observer = EmailObserver(mail)
-subject.attach(email_observer)
+
 
             
 class Issue_Books(Subject):

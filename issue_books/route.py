@@ -1,7 +1,7 @@
 from app import Resource, ns
 from flask import request
 from flask_mail import Message
-from issue_books.service import Issue_Books
+from issue_books.service import Issue_Books, subject
 from issue_books.api_model import issuebooks_model
 from extensions import mail
         
@@ -19,12 +19,13 @@ class EmailObserver:
     def __init__(self):
         self.mail = mail
         
-    def send_email_notifications(self,message):
+    def send_email_notifications(message):
         msg = Message('Notification',
                         sender = 'aishninarain@gmail.com',
                         recipients = ['aishninarain2000@gmail.com'])
         msg.body = f"Notification : {message}"
-        self.mail.send(msg)
+        mail.send(msg)
+        
 
 # Example usage:
 # Create an instance of the subject
@@ -33,6 +34,9 @@ issue_books_subject = Issue_Books()
 # Attach observers
 some_observer = SomeObserver()
 issue_books_subject.attach(some_observer)
+
+email_observer = EmailObserver()
+subject.attach(email_observer)
 
 @ns.route('/librarian/issue_books', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 class Issue(Resource):
