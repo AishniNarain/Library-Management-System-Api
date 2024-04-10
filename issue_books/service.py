@@ -1,6 +1,5 @@
 from flask import make_response, jsonify,request
 from extensions import db, mail
-# from issue_books.route import EmailObserver
 from models import User,TokenBlockList,Role,RolesandPermissions,Books,Borrow
 from datetime import date,timedelta,datetime
 from flask_jwt_extended import JWTManager,create_access_token, create_refresh_token, current_user, get_jwt,jwt_required
@@ -21,11 +20,9 @@ class Subject:
     def notify(self, message):
         for observer in self.observers:
             observer.update(message)
-            
-subject = Subject()
 
+# subject = Subject()
 
-            
 class Issue_Books(Subject):
     def __init__(self):
         super().__init__()
@@ -169,12 +166,7 @@ class Issue_Books(Subject):
                 'message': message
             })
 
-            for row in response_data:
-                message = {
-                        "Name" :row['student_name'],
-                        "Due_date": row['due_date'].strftime('%Y-%m-%d'),
-                        "Message" :row['message']
-                    }
+            message = f"Details : Book id {data1.title}"
             
             # Notify observers with the your message
             self.notify(message)

@@ -1,30 +1,30 @@
 from app import Resource, ns
 from flask import request
 from flask_mail import Message
-from issue_books.service import Issue_Books, subject
+from issue_books.service import Issue_Books
 from issue_books.api_model import issuebooks_model
 from extensions import mail
         
-class Observer:
-    def update(self, message):
-        pass
+# class Observer:
+#     def update(self, message):
+#         pass
 
-class SomeObserver(Observer):
-    def update(self, message):
-        # Process the updated data here
-        print("Message: ", message)
+# class SomeObserver(Observer):
+#     def update(self, message):
+#         # Process the updated data here
+#         print("Message: ", message)
         
 #defining Email Observer class
 class EmailObserver:
     def __init__(self):
         self.mail = mail
         
-    def send_email_notifications(message):
+    def update(self,message):
         msg = Message('Notification',
                         sender = 'aishninarain@gmail.com',
                         recipients = ['aishninarain2000@gmail.com'])
         msg.body = f"Notification : {message}"
-        mail.send(msg)
+        self.mail.send(msg)
         
 
 # Example usage:
@@ -32,11 +32,11 @@ class EmailObserver:
 issue_books_subject = Issue_Books()
 
 # Attach observers
-some_observer = SomeObserver()
-issue_books_subject.attach(some_observer)
+# some_observer = SomeObserver()
+# issue_books_subject.attach(some_observer)
 
 email_observer = EmailObserver()
-subject.attach(email_observer)
+issue_books_subject.attach(email_observer)
 
 @ns.route('/librarian/issue_books', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 class Issue(Resource):
