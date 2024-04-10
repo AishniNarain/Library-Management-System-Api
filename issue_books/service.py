@@ -166,10 +166,11 @@ class Issue_Books(Subject):
                 'message': message
             })
 
-        message = f"Details : Book id {data1.title}"
+        for row in response_data:
+            message = row['message']
             
-        # Notify observers with the your message
-        self.notify(message)
+            # Notify observers with the your message
+            self.notify(message)
 
         return make_response(jsonify({'data': response_data}), 200)
 
