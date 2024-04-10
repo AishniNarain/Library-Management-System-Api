@@ -16,17 +16,17 @@ from extensions import mail
         
 #defining Email Observer class
 class EmailObserver:
-    def __init__(self):
+    def __init__(self,mail):
         self.mail = mail
         
     def update(self,message):
         msg = Message('Notification',
-                        sender = 'aishninarain@gmail.com',
-                        recipients = ['aishninarain2000@gmail.com'])
+                        sender = 'aishninarain2000@gmail.com',
+                        recipients = ['aishninarain@gmail.com'])
         msg.body = f"Notification : {message}"
         self.mail.send(msg)
+            
         
-
 # Example usage:
 # Create an instance of the subject
 issue_books_subject = Issue_Books()
@@ -35,7 +35,7 @@ issue_books_subject = Issue_Books()
 # some_observer = SomeObserver()
 # issue_books_subject.attach(some_observer)
 
-email_observer = EmailObserver()
+email_observer = EmailObserver(mail)
 issue_books_subject.attach(email_observer)
 
 @ns.route('/librarian/issue_books', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
