@@ -14,6 +14,7 @@ from issue_books.api_model import issuebooks_model
         
 # Example usage:
 # Create an instance of the issue books
+issue_books = Issue_Books()
 issue_books_subject = Issue_Books()
 
 # Attach observers
@@ -28,7 +29,7 @@ class Issue(Resource):
     @ns.expect(issuebooks_model)
     def post(self):
         if request.method=='POST':
-            return issue_books_subject.issue_books(request.json)
+            return issue_books.issue_books(request.json)
         message = "This method is not allowed here please use the 'POST' method"
         return f"data="", error={True}, code='405', message={message}, details=''"
     
@@ -37,7 +38,7 @@ class Initiate_Return_Request(Resource):
     @ns.doc(security = [{'Bearer':[]}])
     def patch(self,id):
         if request.method=='PATCH':
-            return issue_books_subject.initiate_return_request(id)
+            return issue_books.initiate_return_request(id)
         message = "This method is not allowed here please use the 'PATCH' method"
         return f"data="", error={True}, code='405', message={message}, details=''"
 
@@ -46,7 +47,7 @@ class Return_Book(Resource):
     @ns.doc(security = [{'Bearer':[]}])
     def patch(self,id):
         if request.method=='PATCH':
-            return issue_books_subject.return_book(id)
+            return issue_books.return_book(id)
         message = "This method is not allowed here please use the 'PATCH' method"
         return f"data="", error={True}, code='405', message={message}, details=''"
     
@@ -94,7 +95,7 @@ class All_Students_Issued_Details(Resource):
             student_id = request.args.get('student_id',type=int)
             book_id = request.args.get('book_id',type=int)
             issued_by = request.args.get('issued_by',type=int)
-            return issue_books_subject.get_all_students_issued_details(page,per_page,issue_date,status,student_id,book_id,issued_by)
+            return issue_books.get_all_students_issued_details(page,per_page,issue_date,status,student_id,book_id,issued_by)
         message = "This method is not allowed here please use the 'GET' method"
         return f"data="", error={True}, code='405', message={message}, details=''"
     
@@ -117,6 +118,6 @@ class Issued_Details_History(Resource):
             issue_date = request.args.get('issue_date')
             student_id = request.args.get('student_id',type=int)
             issued_by = request.args.get('issued_by',type=int)
-            return issue_books_subject.issued_details_history(page,per_page,book_id,issue_date,student_id,issued_by)
+            return issue_books.issued_details_history(page,per_page,book_id,issue_date,student_id,issued_by)
         message = "This method is not allowed here please use the 'GET' method"
         return f"data="", error={True}, code='405', message={message}, details=''"
