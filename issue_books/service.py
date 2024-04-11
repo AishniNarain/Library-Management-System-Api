@@ -27,11 +27,11 @@ class EmailObserver:
     def __init__(self,mail):
         self.mail = mail
         
-    def update(self,recipients,message,due_date):
+    def update(self,recipients,issue_date,due_date,status,message,):
         msg = Message('Notification',
                         sender = 'aishninarain2000@gmail.com',
                         recipients = recipients)
-        msg.body = f"Notification : {message}, {due_date}"
+        msg.body = f"Notification : Issue Date: {issue_date}, Due Date :{due_date},Status : {status}, Message : {message},"
         self.mail.send(msg)
         
 email_observer = EmailObserver(mail)
@@ -182,9 +182,7 @@ class Issue_Books(Subject):
                 'email':email
             })
 
-            
-            email_observer.update([email],message,info.due_date)
-
+            email_observer.update([email],info.issue_date,info.due_date,info.status,message)
         return make_response(jsonify({'data': response_data}), 200)
 
     @jwt_required()
