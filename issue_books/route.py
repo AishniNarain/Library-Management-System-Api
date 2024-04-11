@@ -1,6 +1,5 @@
 from app import Resource, ns
 from flask import request
-from flask_mail import Message
 from issue_books.service import Issue_Books, email_observer
 from issue_books.api_model import issuebooks_model
         

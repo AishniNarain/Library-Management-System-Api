@@ -6,7 +6,7 @@ from flask_jwt_extended import JWTManager,create_access_token, create_refresh_to
 from flask_mail import Message
 from middleware import role, roles_required, access_required
 from schemas import IssueBooksSchema
-from app import ns,jwt
+
 
 class Subject:
     def __init__(self):

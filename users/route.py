@@ -2,7 +2,7 @@ from app import app, Resource, ns
 from flask import request
 from users.factory import UsersFactory
 from users.api_model import register_model,login_model,update_model
-from datetime import datetime
+
 
 #defining an instance of the users using the UsersFactory
 users_instance = UsersFactory.create_users()
