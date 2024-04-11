@@ -122,3 +122,14 @@ class Issued_Details_History(Resource):
             return issue_books.issued_details_history(page,per_page,book_id,issue_date,student_id,issued_by)
         message = "This method is not allowed here please use the 'GET' method"
         return f"data="", error={True}, code='405', message={message}, details=''"
+    
+@ns.route('/librarian/send_emails', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
+class Notification(Resource):
+    @ns.doc(security = [{'Bearer':[]}])
+    # @ns.expect(issuebooks_model)
+    def post(self):
+        if request.method=='POST':
+            return issue_books_subject.send_emails(request.json)
+        message = "This method is not allowed here please use the 'POST' method"
+        return f"data="", error={True}, code='405', message={message}, details=''"
+    

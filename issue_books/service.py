@@ -246,6 +246,17 @@ class Issue_Books(Subject):
             
         return make_response(jsonify({'data': response_data}), 200)
 
+    @jwt_required()
+    @access_required(['Librarian'],['15'])
+    def send_emails(self,student_id):
+        student_id = request.get_json()
+        
+        info = Borrow.query.filter_by(student_id = student_id).first()
+        if not info:
+            return make_response(jsonify({'msg':}))
+        
+        return make_response(jsonify({'msg':'Yes'}))
+
 def calculate_fine(due_date):
     current_date = date.today()
     if current_date < due_date:
