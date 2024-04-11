@@ -35,7 +35,7 @@ class EmailObserver:
         self.mail.send(msg)
         
 email_observer = EmailObserver(mail)
-# subject = Subject()
+
 
 class Issue_Books(Subject):
     def __init__(self):
@@ -151,7 +151,7 @@ class Issue_Books(Subject):
 
         for info in data:
             data1 = Books.query.filter_by(id=info.books_id).first()
-            data2 = User.query.filter_by(id=info.student_id).first()
+            data2 = User.query.filter_by(id=info.student_id).first() 
             email = data2.email
             data3 = User.query.filter_by(id=info.issued_by).first()
             fine, days, current_date = calculate_fine(info.due_date)

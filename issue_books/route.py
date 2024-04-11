@@ -14,7 +14,7 @@ from issue_books.api_model import issuebooks_model
 #         print("Message: ", message)
         
 # Example usage:
-# Create an instance of the subject
+# Create an instance of the issue books
 issue_books_subject = Issue_Books()
 
 # Attach observers
