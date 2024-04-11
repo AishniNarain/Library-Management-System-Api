@@ -3,6 +3,8 @@ from flask import request
 from issue_books.service import Issue_Books, email_observer
 from issue_books.api_model import issuebooks_model
         
+issue_books = Issue_Books()
+
 # class Observer:
 #     def update(self, message):
 #         pass
@@ -14,7 +16,6 @@ from issue_books.api_model import issuebooks_model
         
 # Example usage:
 # Create an instance of the issue books
-issue_books = Issue_Books()
 issue_books_subject = Issue_Books()
 
 # Attach observers
