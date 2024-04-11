@@ -253,7 +253,7 @@ class Issue_Books(Subject):
         
         info = Borrow.query.filter_by(student_id = student_id).first()
         if not info:
-            return make_response(jsonify({'msg':}))
+            return make_response(jsonify({'msg':'U'}))
         
         return make_response(jsonify({'msg':'Yes'}))
 
