@@ -56,7 +56,7 @@ class Book(metaclass=BookMeta):
             return errors, 422
         
         added_on = datetime.today()
-        books = Books(title = data['title'], author = data['author'],publisher = data['publisher'], total_copies = data['total_copies'],added_on = added_on)
+        books = Books(title = data['title'], author = data['author'],publisher = data['publisher'], total_copies = data['total_copies'],available_copies = data['total_copies'],added_on = added_on)
         db.session.add(books)
         db.session.commit()
         response = make_response(jsonify({'msg':'Book Created Successfully!',
@@ -66,6 +66,7 @@ class Book(metaclass=BookMeta):
                         'author': books.author,
                         'publisher': books.publisher,
                         'total_copies': books.total_copies,
+                        'available_copies': books.available_copies,
                         'added_on': books.added_on
                     }}))
         
