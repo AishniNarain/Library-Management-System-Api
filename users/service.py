@@ -7,7 +7,15 @@ from middleware import role, roles_required, access_required
 from schemas import LoginSchema, RegisterSchema
 
 #Defining all methods for users service
-class Users():
+class Users:
+    #defining the interface
+    def __init__(self):
+        pass
+    
+    @staticmethod
+    def create():
+        return Users()
+    
     @jwt_required()
     @access_required(['Admin','Librarian'],['1'])
     def register_user(self,data):
