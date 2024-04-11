@@ -255,3 +255,4 @@ def calculate_fine(due_date):
         days = (current_date-due_date).days
         fine = (days*10)
     return fine, days,current_date
+
