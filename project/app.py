@@ -4,9 +4,9 @@ from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager,create_access_token,jwt_required
 from flask_jwt_extended.exceptions import RevokedTokenError,NoAuthorizationError
 from sqlalchemy import or_
-from models import TokenBlockList,User
-from extensions import db,ma,mail
 from api import api,ns
+from extensions import db,ma,mail
+from models import TokenBlockList,User
 
 jwt = JWTManager()
 
