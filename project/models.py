@@ -1,6 +1,6 @@
 #Defining different models
 
-from extensions import db
+from .extensions import db
 from datetime import date
 
 class User(db.Model):

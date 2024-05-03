@@ -1,9 +1,9 @@
 from flask import make_response, jsonify,request
 from flask_jwt_extended import jwt_required
 from datetime import datetime
-from models import db,Books
-from middleware import access_required
-from schemas import BooksSchema
+from ..models import db,Books
+from ..middleware import access_required
+from ..schemas import BooksSchema
 
 class BookMeta(type):
     _instances = {}

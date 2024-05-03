@@ -3,7 +3,7 @@
 from flask import request, make_response, jsonify
 from functools import wraps
 from flask_jwt_extended import current_user
-from models import Role, RolesandPermissions
+from .models import Role, RolesandPermissions
 
 def role():
     user_id = current_user.id

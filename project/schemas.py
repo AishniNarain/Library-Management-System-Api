@@ -1,6 +1,6 @@
 #Defining schemas for validation of data
 
-from extensions import ma
+from .extensions import ma
 from marshmallow import Schema, fields, validate
 
 class LoginSchema(Schema):
