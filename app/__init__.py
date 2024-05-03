@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager,create_access_token,jwt_required
 from flask_jwt_extended.exceptions import RevokedTokenError,NoAuthorizationError
 from sqlalchemy import or_
-from extensions import db, ma, mail
+from .extensions import db, ma, mail
 from models import TokenBlockList,User
 
 jwt = JWTManager()
@@ -65,9 +65,9 @@ def token_in_blocklist_callback(jwt_header,jwt_data):
     return token is not None
 
 #for initializing routes
-from books import route
-from roles import route
-from permissions import route
-from users import route
-from roles_and_permissions import route
-from issue_books import route
+from services.books import route
+from services.roles import route
+from services.permissions import route
+from services.users import route
+from services.roles_and_permissions import route
+from services.issue_books import route
