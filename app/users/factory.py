@@ -1,4 +1,4 @@
-from users.service import Users
+from .service import Users
 
 class UsersFactory:
     

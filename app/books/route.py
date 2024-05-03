@@ -1,8 +1,8 @@
 from flask_restx import Resource
 from app import app, ns
 from flask import request
-from books.service import Book
-from books.api_model import post_model,put_model
+from .service import Book
+from .api_model import post_model,put_model
 
 book = Book()
 

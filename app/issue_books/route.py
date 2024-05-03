@@ -1,7 +1,7 @@
 from app import Resource, ns
 from flask import request
-from issue_books.service import Issue_Books, email_observer
-from issue_books.api_model import issuebooks_model
+from .service import Issue_Books, email_observer
+from .api_model import issuebooks_model
         
 issue_books = Issue_Books()
 

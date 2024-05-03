@@ -1,7 +1,7 @@
 from app import app, Resource, ns
 from flask import request
-from users.factory import UsersFactory
-from users.api_model import register_model,login_model,update_model
+from .factory import UsersFactory
+from .api_model import register_model,login_model,update_model
 
 
 #defining an instance of the users using the UsersFactory

@@ -1,13 +1,12 @@
 from app import app, Resource, ns
 from flask import request
-from permissions.service import Permissions
-from permissions.api_model import permission_model
+from .service import Roles
+from .api_model import role_model
 
-permission = Permissions()
+role = Roles()
 
-@ns.route('/permissions', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
-class Permission(Resource):
-    
+@ns.route('/roles', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
+class Role(Resource):
     @ns.doc(security = [{'Bearer':[]}])
     @ns.doc(params={
         'page': {'in': 'query', 'description': 'Page no','type':'int', 'default': 1},
@@ -18,14 +17,14 @@ class Permission(Resource):
         if request.method == "GET":
             page = request.args.get('page',type=int)
             per_page = request.args.get('per_page',type=int)
-            return permission.permissions(page,per_page)
+            return role.roles(page,per_page)
         message = "This method is not allowed here please use the 'GET' method"
         return f"data="", error={True}, code='405', message={message}, details=''"
     
     @ns.doc(security = [{'Bearer':[]}])
-    @ns.expect(permission_model)
+    @ns.expect(role_model)
     def post(self):
         if request.method=='POST':
-            return permission.create_permissions(request.json)
+            return role.create_roles(request.json)
         message = "This method is not allowed here please use the 'POST' method"
         return f"data="", error={True}, code='405', message={message}, details=''"
