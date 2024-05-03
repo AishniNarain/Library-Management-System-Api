@@ -1,4 +1,6 @@
-from app import app, Resource, ns
+from flask_restx import Namespace
+from app import Resource
+from api import ns
 from flask import request
 from .service import RolesandPermission
 from .api_model import rolesandpermissions_model

@@ -1,8 +1,9 @@
-from app import app, Resource, ns
+from flask_restx import Namespace
+from app import Resource
+from api import ns
 from flask import request
 from .factory import UsersFactory
 from .api_model import register_model,login_model,update_model
-
 
 #defining an instance of the users using the UsersFactory
 users_instance = UsersFactory.create_users()

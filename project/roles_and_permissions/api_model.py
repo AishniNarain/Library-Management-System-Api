@@ -1,5 +1,5 @@
 from flask_restx import fields
-from app import api
+from api import api
 
 rolesandpermissions_model = api.model('Roles and Permissions', {
     'user_id':fields.Integer(description="User id"),

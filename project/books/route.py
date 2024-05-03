@@ -1,8 +1,10 @@
-from flask_restx import Resource
-from app import app, ns
+from flask_restx import Resource,Namespace
+from api import ns
 from flask import request
 from .service import Book
 from .api_model import post_model,put_model
+
+# ns = Namespace('books', description='Books related operations')
 
 book = Book()
 

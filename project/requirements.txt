@@ -9,3 +9,4 @@ pyjwt
 flask-marshmallow
 marshmallow-sqlalchemy
 flask-mail
+pytest

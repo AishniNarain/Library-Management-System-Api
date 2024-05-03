@@ -1,6 +1,5 @@
 from flask import make_response, jsonify,request
 from models import db, RolesandPermissions,User,Role,Permission
-from app import ns
 from flask_jwt_extended import jwt_required
 from middleware import roles_required
 from schemas import RolesandPermsSchema

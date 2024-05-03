@@ -1,5 +1,5 @@
 from flask_restx import fields
-from app import api
+from api import api
 
 register_model = api.model('Register Users', {
     'username':fields.String(description="Username of the user"),

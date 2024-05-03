@@ -6,6 +6,7 @@ from flask_jwt_extended.exceptions import RevokedTokenError,NoAuthorizationError
 from sqlalchemy import or_
 from models import TokenBlockList,User
 from extensions import db,ma,mail
+from api import api,ns
 
 jwt = JWTManager()
 
@@ -22,11 +23,8 @@ def create_app():
     ma.init_app(app)
     migrate = Migrate(app, db)
     mail.init_app(app)
-
-    #swagger documentation
-    api = Api(app, version='1.0', title='Library Management System Api',description='This is a sample API documentation for Library Management System. This documentation will provide all details related to the operations performed in a library.The Library Management System repository - https://github.com/AishniNarain/Library-Management-System-Api')
-    ns = api.namespace('api/v1', description="Version 1.0 of API")
-
+    api.init_app(app)
+    
     #adding authorization header
     api.authorizations = {
         'Bearer': {
@@ -35,7 +33,6 @@ def create_app():
             'name': 'Authorization'
         }
     }
-    
     
 
     # load user
@@ -69,6 +66,11 @@ def create_app():
     
     return app
 
+app = create_app()
+
+if __name__ == '__main__':
+    app.run(debug=True)
+    
 #for initializing routes
 from books import route
 from roles import route
@@ -76,8 +78,3 @@ from permissions import route
 from users import route
 from roles_and_permissions import route
 from issue_books import route
-
-app = create_app
-
-if __name__ == '__main__':
-    app.run(debug=True)
