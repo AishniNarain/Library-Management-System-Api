@@ -9,7 +9,7 @@ class LoginSchema(Schema):
     
 class RegisterSchema(Schema):
     username = fields.Str(required=True, validate= validate.Length(min=4, max=10))
-    email = fields.Str(required=True)
+    email = fields.Email(required=True)
     password = fields.Str(required=True,validate= validate.Length(min=8, max=15))
     
 class RoleSchema(Schema):

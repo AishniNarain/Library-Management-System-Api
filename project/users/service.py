@@ -57,24 +57,22 @@ class Users:
 
         user = User.query.filter(((User.username == data['username_or_email']) | (User.email == data['username_or_email']))).first()
         password = User.query.filter(User.password == data['password']).first()
-        if user and password :
+        if not user and password :
+            return make_response(jsonify({"msg":"Invalid credentials"}))
+        else:
             access_token = create_access_token(identity=data['username_or_email'],fresh= True)
             refresh_token = create_refresh_token(identity=data['username_or_email'])
-            user.login_date = date.today()
+            # user.login_date = date.today()
             db.session.commit()
             
             return make_response(jsonify({
-                                "message":"Logged in Successfully!",
+                                "msg":"Logged in Successfully!",
                                 "token":{
                                 "access_token":access_token,
                                 "refresh_token":refresh_token
                                 }
                             }))
-            
-        elif not user and password:
-            return make_response(jsonify({"msg":"Invalid credentials"}))
-        else:
-            return make_response(jsonify({"msg":"User does not exist"}))
+
 
     
     @jwt_required(verify_type = False)
