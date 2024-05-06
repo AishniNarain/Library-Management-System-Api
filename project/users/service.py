@@ -38,7 +38,7 @@ class Users:
         db.session.add(user)
         db.session.commit()
 
-        response = jsonify({'msg':'Signup Successful! User Created Successfully!',
+        return make_response(jsonify({'msg':'Signup Successful! User Created Successfully!',
                     'data': {
                         'id': user.id,
                         'username':user.username,
@@ -47,8 +47,7 @@ class Users:
                         'registration_date':user.registration_date,
                         'block_status': user.block_status,
                         'created_by':user.created_by
-        }})
-        return response
+        }}))
         
     def login(self,data):
         data = request.get_json()
@@ -64,7 +63,7 @@ class Users:
             user.login_date = date.today()
             db.session.commit()
             
-            response = make_response(jsonify({
+            return make_response(jsonify({
                                 "message":"Logged in Successfully!",
                                 "token":{
                                 "access_token":access_token,
@@ -73,10 +72,10 @@ class Users:
                             }))
             
         elif not user and password:
-            response = make_response(jsonify({'msg':'Invalid credentials'}))
+            return make_response(jsonify({"msg":"Invalid credentials"}))
         else:
-            response = make_response(jsonify({'msg':'User does not exist'}))
-        return response
+            return make_response(jsonify({"msg":"User does not exist"}))
+
     
     @jwt_required(verify_type = False)
     def logout(self):

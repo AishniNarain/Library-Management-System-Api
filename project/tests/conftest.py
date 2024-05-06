@@ -14,3 +14,7 @@ def app():
 @pytest.fixture()
 def client(app):
     return app.test_client()
+
+# @pytest.fixture
+# def mock_jwt(mocker):
+#     mocker.patch('flask_jwt_extended.jwt_required', return_value=lambda f: f)
