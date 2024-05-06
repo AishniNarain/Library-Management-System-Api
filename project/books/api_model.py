@@ -1,5 +1,5 @@
 from flask_restx import fields
-from ..api import api
+from ..app import api
 
 post_model = api.model('Create Books', {
     'title': fields.String(required=True),

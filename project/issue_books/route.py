@@ -1,6 +1,4 @@
-from flask_restx import Namespace
-from app import Resource
-from api import ns
+from ..app import Resource,ns
 from flask import request
 from .service import Issue_Books, email_observer
 from .api_model import issuebooks_model

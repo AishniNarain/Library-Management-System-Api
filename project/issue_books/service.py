@@ -1,11 +1,11 @@
 from flask import make_response, jsonify,request
-from extensions import db, mail
-from models import User,TokenBlockList,Role,RolesandPermissions,Books,Borrow
+from ..extensions import db, mail
+from ..models import User,TokenBlockList,Role,RolesandPermissions,Books,Borrow
 from datetime import date,timedelta,datetime
 from flask_jwt_extended import JWTManager,create_access_token, create_refresh_token, current_user, get_jwt,jwt_required
 from flask_mail import Message
-from middleware import role, roles_required, access_required
-from schemas import IssueBooksSchema
+from ..middleware import role, roles_required, access_required
+from ..schemas import IssueBooksSchema
 
 
 class Subject:

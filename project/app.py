@@ -5,13 +5,12 @@ from flask_jwt_extended import JWTManager,create_access_token,jwt_required
 from flask_jwt_extended.exceptions import RevokedTokenError,NoAuthorizationError
 from sqlalchemy import or_
 from .extensions import db,ma,mail
-from models import TokenBlockList,User
+from .models import TokenBlockList,User
 
 jwt = JWTManager()
 
 import pymysql
 pymysql.install_as_MySQLdb()
-
 
 app = Flask(__name__)
 
@@ -23,7 +22,7 @@ ma.init_app(app)
 migrate = Migrate(app, db)
 mail.init_app(app)
 
-api = Api(version='1.0', title='Library Management System Api',description='This is a sample API documentation for Library Management System. This documentation will provide all details related to the operations performed in a library.')
+api = Api(app,version='1.0', title='Library Management System Api',description='This is a sample API documentation for Library Management System. This documentation will provide all details related to the operations performed in a library.')
 ns = api.namespace('api/v1', description="Version 1.0 of API")
 
 #adding authorization header
@@ -67,9 +66,9 @@ def token_in_blocklist_callback(jwt_header,jwt_data):
 
 
 #for initializing routes
-from books import route
-from roles import route
-from permissions import route
-from users import route
-from roles_and_permissions import route
-from issue_books import route
+from .books import route
+from .roles import route
+from .permissions import route
+from .users import route
+from .roles_and_permissions import route
+from .issue_books import route

@@ -10,3 +10,4 @@ flask-marshmallow
 marshmallow-sqlalchemy
 flask-mail
 pytest
+pytest-mock
