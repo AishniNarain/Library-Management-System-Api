@@ -13,7 +13,7 @@ SECRET_KEY = 'your_secret_key'
 def app():
     app = flask_app
     app.config['TESTING'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://username:password@localhost/database'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://username:password@127.0.0.1/database'
     
     with app.app_context():
         db.create_all()
