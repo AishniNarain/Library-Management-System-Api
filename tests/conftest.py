@@ -1,5 +1,8 @@
 import sys
-sys.path.append("aishni.narain@intelegencia.com/Desktop/Library System Api/app")
+sys.path.append("/home/aishni.narain@intelegencia.com/Desktop/Library System Api/Library-Management-System-Api/app")
+
+
+
 
 from flask import current_app
 import datetime
