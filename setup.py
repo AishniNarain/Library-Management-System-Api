@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='Continuous-Integration',
+    name='Library_Management_System_Api',
     version='0.1',
     description='Continuous-Integration using GitHub Actions',
     author='Aishni',
