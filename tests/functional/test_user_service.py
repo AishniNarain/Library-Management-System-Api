@@ -9,8 +9,8 @@ def test_login_successful(client):
     }
     url = '/api/v1/users/login'
     response = client.post(url, json= valid_data)
-    json_response = response.get_json()
-    
+    # json_response = response.get_json()
+
     assert response.status_code == 200
     # assert json_response['msg'] == 'Logged in Successfully!'
     # assert 'token' in json_response
