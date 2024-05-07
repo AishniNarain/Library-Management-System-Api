@@ -1,8 +1,8 @@
 from flask_restx import Namespace
 from app import Resource,ns
 from flask import request
-from service import Permissions
-from api_model import permission_model
+from permissions.service import Permissions
+from permissions.api_model import permission_model
 
 permission = Permissions()
 

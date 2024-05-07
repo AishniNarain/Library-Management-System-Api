@@ -1,10 +1,10 @@
 from flask import make_response, jsonify,request
-from ..extensions import db
-from ..models import User,TokenBlockList,Role,RolesandPermissions,Borrow
+from extensions import db
+from models import User,TokenBlockList,Role,RolesandPermissions,Borrow
 from datetime import date,datetime
 from flask_jwt_extended import create_access_token,create_refresh_token,current_user,get_jwt,jwt_required
-from ..middleware import role, roles_required, access_required
-from ..schemas import LoginSchema, RegisterSchema
+from middleware import role, roles_required, access_required
+from schemas import LoginSchema, RegisterSchema
 
 #Defining all methods for users service
 class Users:
