@@ -18,6 +18,7 @@ def app():
     with app.app_context():
         db.create_all()
         yield app
+        db.drop_all()
     
 @pytest.fixture()
 def client(app):
@@ -34,36 +35,36 @@ def client(app):
 #         yield mock_jwt
 
 
-@pytest.fixture
-def valid_authorization_header():
-    # Fixture to provide a valid authorization header with a valid access token
-    identity = 'test@example.com'
-    access_token = create_access_token(identity=identity, expires_delta=datetime.timedelta(hours=1))
-    return {'Authorization': f'Bearer {access_token}'}
+# @pytest.fixture
+# def valid_authorization_header():
+#     # Fixture to provide a valid authorization header with a valid access token
+#     identity = 'test@example.com'
+#     access_token = create_access_token(identity=identity, expires_delta=datetime.timedelta(hours=1))
+#     return {'Authorization': f'Bearer {access_token}'}
 
-@pytest.fixture
-def invalid_authorization_header():
-    # Fixture to provide an invalid authorization header with an expired access token
-    identity = 'test@example.com'
-    access_token = create_access_token(identity=identity, expires_delta=datetime.timedelta(hours=-1))  # Token expired
-    return {'Authorization': f'Bearer {access_token}'}
+# @pytest.fixture
+# def invalid_authorization_header():
+#     # Fixture to provide an invalid authorization header with an expired access token
+#     identity = 'test@example.com'
+#     access_token = create_access_token(identity=identity, expires_delta=datetime.timedelta(hours=-1))  # Token expired
+#     return {'Authorization': f'Bearer {access_token}'}
 
-@pytest.fixture()
-def authorization_header():
-    identity = 'test@example.com'
-    access_token = create_access_token(identity=identity,expires_delta=datetime.timedelta(hours=1))
+# @pytest.fixture()
+# def authorization_header():
+#     identity = 'test@example.com'
+#     access_token = create_access_token(identity=identity,expires_delta=datetime.timedelta(hours=1))
     
-    return {'Authorization': f'Bearer {access_token}'}
+#     return {'Authorization': f'Bearer {access_token}'}
 
-@pytest.fixture
-def mock_access_required():
-    with patch('project.middleware.access_required') as mock_access:
-        yield mock_access
+# @pytest.fixture
+# def mock_access_required():
+#     with patch('project.middleware.access_required') as mock_access:
+#         yield mock_access
         
-@pytest.fixture
-def mock_dbsession():
-    return MagicMock()
+# @pytest.fixture
+# def mock_dbsession():
+#     return MagicMock()
 
-@pytest.fixture
-def mock_user():
-    return MagicMock()
+# @pytest.fixture
+# def mock_user():
+#     return MagicMock()
