@@ -13,10 +13,21 @@ permissions:
   contents: read
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
+  run-tests:
+      strategy:
+        fail-fast: false
+        matrix:
+          os: [ubuntu-latest, macos-latest]
+          python-version:
+            - "3.8"
+            - "3.9"
+            - "3.10"
+            - "3.11"
+            - "3.12-dev"
+            - "pypy-3.8"
+            - "pypy-3.9"
+      name: Test
+      runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.10
