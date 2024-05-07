@@ -13,8 +13,8 @@ SECRET_KEY = 'your_secret_key'
 @pytest.fixture()
 def app():
     app = flask_app
-    app.config['TESTING'] = True 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://username:password@localhost/db_name'
+    app.config['TESTING'] = True
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Abcdef123@localhost/library_api'
     
     with app.app_context():
         db.create_all()
