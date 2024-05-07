@@ -1,3 +1,6 @@
+import sys
+sys.path.append("aishni.narain@intelegencia.com/Desktop/Library System Api/app")
+
 from flask import current_app
 import datetime
 import pytest
