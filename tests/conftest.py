@@ -2,7 +2,7 @@ from flask import current_app
 import datetime
 import pytest
 from unittest.mock import MagicMock,patch
-from ..app import app as flask_app,db
+from app import app as flask_app,db
 from flask_jwt_extended import jwt_required,create_access_token
 
 SECRET_KEY = 'your_secret_key'

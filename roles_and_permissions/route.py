@@ -1,7 +1,7 @@
-from ..app import Resource,ns
+from app import Resource,ns
 from flask import request
-from .service import RolesandPermission
-from .api_model import rolesandpermissions_model
+from service import RolesandPermission
+from api_model import rolesandpermissions_model
 
 roles_and_permissions = RolesandPermission()
 

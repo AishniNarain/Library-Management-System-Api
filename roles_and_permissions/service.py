@@ -1,8 +1,8 @@
 from flask import make_response, jsonify,request
-from ..models import db, RolesandPermissions,User,Role,Permission
+from models import db, RolesandPermissions,User,Role,Permission
 from flask_jwt_extended import jwt_required
-from ..middleware import roles_required
-from ..schemas import RolesandPermsSchema
+from middleware import roles_required
+from schemas import RolesandPermsSchema
 
 #Defining all methods of Roles and Permissions service
 class RolesandPermission():

@@ -1,9 +1,9 @@
 from flask import make_response, jsonify,request
-from ..extensions import db
-from ..models import Role
+from extensions import db
+from models import Role
 from flask_jwt_extended import jwt_required
-from ..middleware import roles_required
-from ..schemas import RoleSchema
+from middleware import roles_required
+from schemas import RoleSchema
 
 #Defining the roles service with all methods
 class Roles():
