@@ -35,7 +35,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/aishni.narain@intelegencia.com/Desktop/Library System Api/Library-Management-System-Api/project/venv"
+VIRTUAL_ENV="/home/aishni.narain@intelegencia.com/Desktop/Library System Api/Library-Management-System-Api/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

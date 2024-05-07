@@ -8,7 +8,7 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
-setenv VIRTUAL_ENV "/home/aishni.narain@intelegencia.com/Desktop/Library System Api/Library-Management-System-Api/project/venv"
+setenv VIRTUAL_ENV "/home/aishni.narain@intelegencia.com/Desktop/Library System Api/Library-Management-System-Api/venv"
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/bin:$PATH"
