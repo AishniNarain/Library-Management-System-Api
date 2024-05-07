@@ -1,10 +1,6 @@
 import sys
 sys.path.append("/home/aishni.narain@intelegencia.com/Desktop/Library System Api/Library-Management-System-Api")
 
-
-
-
-from flask import current_app
 import datetime
 import pytest
 from unittest.mock import MagicMock,patch
