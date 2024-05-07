@@ -13,4 +13,3 @@ MAIL_USERNAME = 'aishninarain2000@gmail.com'
 MAIL_PASSWORD = 'tqpa avpq wvrt dpfk'
 MAIL_USE_TLS = False
 MAIL_USE_SSL = True
-
