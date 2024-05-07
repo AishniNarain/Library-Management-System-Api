@@ -1,5 +1,5 @@
 import sys
-sys.path.append("/home/aishni.narain@intelegencia.com/Desktop/Library System Api/Library-Management-System-Api/app")
+sys.path.append("/home/aishni.narain@intelegencia.com/Desktop/Library System Api/Library-Management-System-Api")
 
 
 
