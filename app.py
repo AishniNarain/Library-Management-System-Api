@@ -71,3 +71,6 @@ from permissions import route
 from users import route
 from roles_and_permissions import route
 from issue_books import route
+
+if __name__ == "__main__":
+    app.run()
