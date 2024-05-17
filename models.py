@@ -35,6 +35,10 @@ class Role(db.Model):
     id =db.Column(db.Integer, primary_key=True)
     role_name = db.Column(db.String(50),unique = True, nullable= False)
     
+    def __init__(self, id, role_name):
+        self.id = id
+        self.role_name = role_name
+        
     def json(self):
         return {
             'id': self.id,
