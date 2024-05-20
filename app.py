@@ -63,7 +63,6 @@ def token_in_blocklist_callback(jwt_header,jwt_data):
     token = db.session.query(TokenBlockList).filter(TokenBlockList.jti == jti).scalar()
     return token is not None
 
-
 #for initializing routes
 from books import route
 from roles import route
