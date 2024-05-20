@@ -1,5 +1,4 @@
 #Implementing middleware for authentication and authorization
-
 from flask import request, make_response, jsonify
 from functools import wraps
 from flask_jwt_extended import current_user
