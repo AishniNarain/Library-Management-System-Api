@@ -2,9 +2,9 @@ from app import client
 import datetime
 
 database = client["library"]
-logs_collection = database["books_logs"]
+books_logs_collection = database["books_logs"]
 
-def log_books_action(action, status, message, data=None):
+def log_books_action(action, status, message=None, data=None):
     log_entry = {
         "action": action,
         "status": status,
@@ -13,4 +13,4 @@ def log_books_action(action, status, message, data=None):
         "timestamp": datetime.datetime.now()
     }
     
-    logs_collection.insert_one(log_entry)
+    books_logs_collection.insert_one(log_entry)
