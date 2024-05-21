@@ -2,14 +2,13 @@ from app import client
 import datetime
 
 database = client["library"]
-logs_collection = database["users_logs"]
+logs_collection = database["books_logs"]
 
-def log_users_action(action, status, message, user_id=None, data=None):
+def log_books_action(action, status, message, data=None):
     log_entry = {
         "action": action,
         "status": status,
         "message": message,
-        "user_id": user_id,
         "data": data,
         "timestamp": datetime.datetime.now()
     }

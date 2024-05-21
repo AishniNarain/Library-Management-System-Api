@@ -1,9 +1,10 @@
 from flask import make_response, jsonify,request
 from flask_jwt_extended import jwt_required
-from datetime import datetime
+import datetime
 from models import db,Books
 from middleware import access_required
 from schemas import BooksSchema
+from books.logs import log_books_action
 
 class BookMeta(type):
     _instances = {}
@@ -36,9 +37,13 @@ class Book(metaclass=BookMeta):
         data = books_query.order_by(Books.id.asc()).paginate(page=page,per_page=per_page,error_out=False)
     
         if not data:
+            log_books_action("get_books_inventory", "failure", 'No books available')
             response = make_response(jsonify({'msg':'No books available'}))
+            
+        # log_books_action("get_books_inventory", "success","Details",{
+        #     "data":[info.json() for info in data]
+        # })
         response = make_response(jsonify({'data':[info.json() for info in data]}), 200)
-        
         return response
     
     @jwt_required()
@@ -53,10 +58,20 @@ class Book(metaclass=BookMeta):
         if errors:
             return errors, 422
         
-        added_on = datetime.today()
+        added_on = datetime.datetime.today()
         books = Books(title = data['title'], author = data['author'],publisher = data['publisher'], total_copies = data['total_copies'],available_copies = data['total_copies'],added_on = added_on)
         db.session.add(books)
         db.session.commit()
+        
+        log_books_action("get_books_inventory", "success","Details",{
+            "data": {'id':books.id,
+                        'title': books.title,
+                        'author': books.author,
+                        'publisher': books.publisher,
+                        'total_copies': books.total_copies,
+                        'available_copies': books.available_copies,
+                        'added_on': books.added_on
+        }})
         response = make_response(jsonify({'msg':'Book Created Successfully!',
                     'data': {
                         'id':books.id,

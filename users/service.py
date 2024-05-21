@@ -5,7 +5,7 @@ from datetime import date,datetime
 from flask_jwt_extended import create_access_token,create_refresh_token,current_user,get_jwt,jwt_required
 from middleware import role, roles_required, access_required
 from schemas import LoginSchema, RegisterSchema
-from users.logs import log_action
+from users.logs import log_users_action
 
 #Defining all methods for users service
 class Users:
@@ -23,7 +23,7 @@ class Users:
         data = request.get_json()
         errors = RegisterSchema().validate(data)
         if errors:
-            log_action("register_user", "failure", "Validation errors", current_user.id, errors)
+            log_users_action("register_user", "failure", "Validation errors", current_user.id, errors)
             return errors, 422
             
         existing_email = User.query.filter_by(email=data['email']).first()
@@ -31,12 +31,12 @@ class Users:
         
         if existing_user:
             message = "Username already exists. Choose a different username"
-            log_action("register_user", "failure", message, current_user.id, {"username": data['username']})
+            log_users_action("register_user", "failure", message, current_user.id, {"username": data['username']})
             response = make_response(jsonify({"message": message}))
             return response
         if existing_email:
             message = "Email already exists. Choose a different email address"
-            log_action("register_user", "failure", message, current_user.id, {"email": data['email']})
+            log_users_action("register_user", "failure", message, current_user.id, {"email": data['email']})
             response = make_response(jsonify({"message": message}))
             return response
             
@@ -44,7 +44,7 @@ class Users:
         db.session.add(user)
         db.session.commit()
         
-        log_action("register_user", "success", "User created successfully", current_user.id, {
+        log_users_action("register_user", "success", "User created successfully", current_user.id, {
             'id': user.id,
             'username': user.username,
             'email': user.email,
@@ -68,7 +68,7 @@ class Users:
         data = request.get_json()
         errors = LoginSchema().validate(data)
         if errors:
-            log_action("login", "failure", "Validation errors", current_user.id, errors)
+            log_users_action("login", "failure", "Validation errors", user.id, errors)
             return errors, 422
 
         user = User.query.filter(((User.username == data['username_or_email']) | (User.email == data['username_or_email']))).first()
@@ -76,7 +76,7 @@ class Users:
         
         if not (user and password):
             message = "Invalid credentials"
-            log_action("login", "failure", message)
+            log_users_action("login", "failure", message)
             
             return make_response(jsonify({"msg":message}))
         else:
@@ -85,7 +85,7 @@ class Users:
             user.login_date = date.today()
             db.session.commit()
             
-            log_action("login", "success", "Logged in Successfully!", current_user.id, {
+            log_users_action("login", "success", "Logged in Successfully!", user.id, {
                 "token":{
                             "access_token":access_token,
                             "refresh_token":refresh_token
@@ -109,15 +109,27 @@ class Users:
         db.session.add(block_list)
         db.session.commit()
         
-        response = make_response(jsonify({'msg':'You have successfully logged out'}),200)
+        message = 'You have successfully logged out'
+        log_users_action("logout", "success", message, current_user.id)
+        response = make_response(jsonify({'msg':message}),200)
         return response
     
     @jwt_required(fresh=True)
     @roles_required(['Admin','Librarian','Student'])
     def user_profile(self):
         data = User.query.filter_by(id = current_user.id).first()
+        
         if not data:
+            log_users_action("user_profile", "failure", "User doesn't exist", current_user.id )
             return jsonify({"message":"User doesn't exist"})
+        
+        log_users_action("user_profile", "success", current_user.id, {
+                'username': data.username,
+                'email': data.email,
+                'password': data.password,
+                'registration_date' : data.registration_date,
+        })
+
         response = make_response({
                                 'username': data.username,
                                 'email': data.email,
@@ -133,13 +145,26 @@ class Users:
         if id is not None:
             if role_name == 'Admin':
                 if current_user.id == id:
+                    log_users_action("get_users", "failure", 'Invalid request')
                     response = make_response(jsonify({'message':'Invalid request'}))
                     return response
                 else:
                     data = User.query.filter(User.id == id, User.block_status == False).first()
                     if not data:
+                        log_users_action("get_users", "failure",'No data available')
                         response = make_response(jsonify({'message':'No data available'}))
                         return response
+                    
+                    log_users_action("get_users", "success","Details",current_user.id,{
+                        'id': data.id,
+                        'username': data.username,
+                        'email': data.email,
+                        'password': data.password,
+                        'registration_date': data.registration_date,
+                        'login_date': data.login_date,
+                        'block_status': data.block_status,
+                        'created_by': data.created_by
+                    })
                     response = make_response({
                                             'id': data.id,
                                             'username': data.username,
@@ -154,6 +179,16 @@ class Users:
                 data = User.query.filter(User.created_by == current_user.id, User.block_status == False).all()
                 for info in data:
                     if (info.id == id):
+                        log_users_action("get_users", "success","Details",{
+                            'id': info.id,
+                            'username': info.username,
+                            'email': info.email,
+                            'password': info.password,
+                            'registration_date': info.registration_date,
+                            'login_date': info.login_date,
+                            'block_status': info.block_status,
+                            'created_by': current_user.username
+                        })
                         return make_response({
                                             'id': info.id,
                                             'username': info.username,
@@ -163,6 +198,7 @@ class Users:
                                             'login_date': info.login_date,
                                             'block_status': info.block_status,
                                             'created_by': current_user.username})
+                log_users_action("get_users", "failure", 'Invalid user details request')
                 return make_response(jsonify({'message':'Invalid user details request'}))
         else:
             users_query = User.query
@@ -181,6 +217,9 @@ class Users:
                     details[creator.id] = creator.username
                 for info in data:
                     info.created_by = details.get(info.created_by)
+                log_users_action("get_users", "success", {
+                    'data': [info.json() for info in data]
+                })
                 return make_response(jsonify({'data': [info.json() for info in data]}), 200)
             else:
                 if username or email:
@@ -190,98 +229,124 @@ class Users:
                 users_query = users_query.filter(*filters)
                 data = users_query.filter(User.created_by == current_user.id,User.block_status == False).all()
                 if not data:
+                    log_users_action("get_users", "failure", 'No users available')
                     return make_response(jsonify({'msg':'No users available'}))
                 for info in data:
                     info.created_by = current_user.username
+                log_users_action("get_users", "success", {
+                    'data': [info.json() for info in data]
+                    })
                 return make_response(jsonify({'data':[info.json() for info in data]}), 200)
 
     @jwt_required()
     @access_required(['Admin'],['3'])
     def update_user(self,id,data):
         if (current_user.id == id):
+            log_users_action("update_user", "failure", "Cannot update self")
             return make_response(jsonify({'message':'Cannot update self'}))
         else:
             result = User.query.filter_by(id=id).first()
             if not result:
+                log_users_action("update_user", "failure", "User doesn't exist, cannot update")
                 return make_response(jsonify({"message":"User doesn't exist, cannot update"}))
             
             info = RolesandPermissions.query.filter_by(user_id = result.id).first()
             role = Role.query.filter_by(id = info.role_id).first()
             if role.role_name == 'Admin':
+                log_users_action("update_user", "failure", 'Cannot update admin user')
                 return make_response(jsonify({'message':'Cannot update admin user'}))
             
             
             result.username = data['username']
             result.email = data['email']
             result.password = data['password']
-            
             db.session.commit()
+            
+            log_users_action("update_user", "success", 'User has been updated Successfully')
             return make_response(jsonify({'message':'User has been updated Successfully'}))
         
     @jwt_required()
     @access_required(['Admin','Librarian'],['4'])
     def delete_user(self,id):
         if (current_user.id == id):
+            log_users_action("delete_user", "failure", 'Cannot delete self')
             return make_response(jsonify({'message':'Cannot delete self'}))
         else:
             user = User.query.filter_by(id=id).first()
             if not user:
+                log_users_action("delete_user", "failure",'User Not Found')
                 return make_response(jsonify({'error':'User Not Found'}))
             else:
                 borrow_count = Borrow.query.filter((Borrow.student_id == id) & (Borrow.status !='Return Request Initiated')).count()
                 if borrow_count>=1:
+                    log_users_action("delete_user", "failure", 'Cannot delete user')
                     return make_response(jsonify({'message':'Cannot delete user'}))
             data1 = RolesandPermissions.query.filter_by(user_id = user.id).first()
             data2 = RolesandPermissions.query.filter_by(user_id = current_user.id).first()
             if data1:
                 role1 = Role.query.filter_by(id = data1.role_id).first()
                 if role1.role_name == 'Admin':
+                    log_users_action("delete_user", "failure", f"Cannot delete {role1.role_name} user" )
                     return make_response(jsonify({'message':f"Cannot delete {role1.role_name} user"}))
             if data2:
                 role2 = Role.query.filter_by(id = data2.role_id).first()
                 if role2.role_name == 'Librarian':
+                    log_users_action("delete_user", "success",f"Cannot delete {role2.role_name} user")
                     return make_response(jsonify({'message':f"Cannot delete {role2.role_name} user"}))
             
             db.session.delete(user)
             db.session.commit()
+            
+            log_users_action("update_user", "success",'User deleted successfully')
             return make_response(jsonify({'data':'User deleted successfully'}))
         
     @jwt_required()
     @access_required(['Admin','Librarian'],['5'])
     def block_user(self,id):
         if (current_user.id == id):
+            log_users_action("block_user", "failure",'Cannot block self')
             return make_response(jsonify({'message':'Cannot block self'}))
         else:
             result = User.query.filter_by(id=id).first()
             if not result:
+                log_users_action("block_user", "failure","User doesn't exist, cannot block")
                 return make_response(jsonify({"message":"User doesn't exist, cannot block"}))
             else:
                 borrow_count = Borrow.query.filter_by(student_id = id).count()
                 data2 = Borrow.query.filter((Borrow.student_id == id) and (Borrow.status != 'Return Request Initiated')).first()
                 if borrow_count > 1 or data2:
+                    log_users_action("block_user", "failure",'Cannot block user')
                     return make_response(jsonify({'message':'Cannot block user'}))
             data1 = RolesandPermissions.query.filter_by(user_id = result.id).first()
             data2 = RolesandPermissions.query.filter_by(user_id = current_user.id).first()
             role1 = Role.query.filter_by(id = data1.role_id).first()
             role2 = Role.query.filter_by(id = data2.role_id).first()
             if role1.role_name == 'Admin':
+                log_users_action("block_user", "failure",f"Cannot block {role1.role_name} user")
                 return make_response(jsonify({'message':f"Cannot block {role1.role_name} user"}))
             if role2.role_name == 'Librarian':
+                log_users_action("block_user", "failure",f"Cannot block {role2.role_name} user")
                 return make_response(jsonify({'message':f"Cannot block {role2.role_name} user"}))
             result.block_status = True
             db.session.commit()
+            
+            log_users_action("block_user", "success",'User blocked Successfully')
             return make_response(jsonify({'message': 'User blocked Successfully'}))
         
     @jwt_required()
     @access_required(['Admin','Librarian'],['6'])
     def unblock_user(self,id):
         if (current_user.id == id):
+            log_users_action("unblock_user", "failure",'Invalid request')
             return make_response(jsonify({'message':'Invalid request'}))
         else:
             result = User.query.filter_by(id=id).first()
             if not result:
+                log_users_action("unblock_user", "failure","User doesn't exist, cannot unblock")
                 return make_response(jsonify({"message":"User doesn't exist, cannot unblock"}))
 
             result.block_status = False
             db.session.commit()
+            
+            log_users_action("unblock_user", "success",'User has been unblocked')
             return make_response(jsonify({'message': 'User has been unblocked'}))
