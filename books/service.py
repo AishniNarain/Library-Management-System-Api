@@ -42,7 +42,7 @@ class Book(metaclass=BookMeta):
         return response
     
     @jwt_required()
-    @access_required(['Admin'],['3'])
+    @access_required(['Admin'],['8'])
     def add_book_inventory(self,data):
         data = request.get_json()
         
@@ -71,7 +71,7 @@ class Book(metaclass=BookMeta):
         return response
     
     @jwt_required()
-    @access_required(['Librarian'],['4'])
+    @access_required(['Librarian'],['9'])
     def update_book_inventory(self, id, data):
         result = Books.query.filter_by(id=id).first()
         if not result:
@@ -90,7 +90,7 @@ class Book(metaclass=BookMeta):
         return response
     
     @jwt_required()
-    @access_required(['Admin'],['5'])
+    @access_required(['Admin'],['10'])
     def delete_book_inventory(self, id):
         books = Books.query.filter_by(id=id).first()
         

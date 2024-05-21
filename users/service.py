@@ -57,12 +57,13 @@ class Users:
 
         user = User.query.filter(((User.username == data['username_or_email']) | (User.email == data['username_or_email']))).first()
         password = User.query.filter(User.password == data['password']).first()
+        
         if not user and password :
             return make_response(jsonify({"msg":"Invalid credentials"}))
         else:
             access_token = create_access_token(identity=data['username_or_email'],fresh= True)
             refresh_token = create_refresh_token(identity=data['username_or_email'])
-            # user.login_date = date.today()
+            user.login_date = date.today()
             db.session.commit()
             
             return make_response(jsonify({
@@ -102,7 +103,7 @@ class Users:
         return response
     
     @jwt_required()
-    @access_required(['Admin','Librarian'],['6'])
+    @access_required(['Admin','Librarian'],['2'])
     def get_users(self,id=None,username=None,email=None,registration_date=None):
         role_name = role()
         if id is not None:
@@ -171,7 +172,7 @@ class Users:
                 return make_response(jsonify({'data':[info.json() for info in data]}), 200)
 
     @jwt_required()
-    @access_required(['Admin'],['7'])
+    @access_required(['Admin'],['3'])
     def update_user(self,id,data):
         if (current_user.id == id):
             return make_response(jsonify({'message':'Cannot update self'}))
@@ -194,7 +195,7 @@ class Users:
             return make_response(jsonify({'message':'User has been updated Successfully'}))
         
     @jwt_required()
-    @access_required(['Admin','Librarian'],['8'])
+    @access_required(['Admin','Librarian'],['4'])
     def delete_user(self,id):
         if (current_user.id == id):
             return make_response(jsonify({'message':'Cannot delete self'}))
@@ -222,7 +223,7 @@ class Users:
             return make_response(jsonify({'data':'User deleted successfully'}))
         
     @jwt_required()
-    @access_required(['Admin','Librarian'],['9'])
+    @access_required(['Admin','Librarian'],['5'])
     def block_user(self,id):
         if (current_user.id == id):
             return make_response(jsonify({'message':'Cannot block self'}))
@@ -248,7 +249,7 @@ class Users:
             return make_response(jsonify({'message': 'User blocked Successfully'}))
         
     @jwt_required()
-    @access_required(['Admin','Librarian'],['10'])
+    @access_required(['Admin','Librarian'],['6'])
     def unblock_user(self,id):
         if (current_user.id == id):
             return make_response(jsonify({'message':'Invalid request'}))

@@ -53,7 +53,7 @@ class Issue_Books(Subject):
         books_id = Books.query.filter_by(id = data['book_id']).first()
         issue_date = date.today()
         due_date = issue_date+timedelta(days=1)
-        data1 = RolesandPermissions.query.filter_by(id = data['student_id']).first()
+        data1 = RolesandPermissions.query.filter_by(user_id = data['student_id']).first()
         data2 = Role.query.filter_by(role_name = 'Student').first()
         
         if not books_id:
