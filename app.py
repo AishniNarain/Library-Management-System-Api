@@ -3,6 +3,7 @@ from flask_restx import Api,Resource
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager,create_access_token,jwt_required
 from flask_jwt_extended.exceptions import RevokedTokenError,NoAuthorizationError
+from flask_pymongo import PyMongo
 from sqlalchemy import or_
 from extensions import db,ma,mail
 from models import TokenBlockList,User
@@ -17,6 +18,7 @@ app = Flask(__name__)
 #initializing different parameters to the main application
 app.config.from_pyfile('config.py')
 db.init_app(app)
+mongo = PyMongo(app)
 jwt.init_app(app)
 ma.init_app(app)
 migrate = Migrate(app, db)
