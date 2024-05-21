@@ -5,6 +5,7 @@ from datetime import date,datetime
 from flask_jwt_extended import create_access_token,create_refresh_token,current_user,get_jwt,jwt_required
 from middleware import role, roles_required, access_required
 from schemas import LoginSchema, RegisterSchema
+from users.logs import log_action
 
 #Defining all methods for users service
 class Users:
@@ -22,21 +23,35 @@ class Users:
         data = request.get_json()
         errors = RegisterSchema().validate(data)
         if errors:
+            log_action("register_user", "failure", "Validation errors", current_user.id, errors)
             return errors, 422
             
         existing_email = User.query.filter_by(email=data['email']).first()
         existing_user = User.query.filter_by(username=data['username']).first()
         
         if existing_user:
-            response = make_response(jsonify({"message": "Username already exists. Choose a different username"}))
+            message = "Username already exists. Choose a different username"
+            log_action("register_user", "failure", message, current_user.id, {"username": data['username']})
+            response = make_response(jsonify({"message": message}))
             return response
         if existing_email:
-            response = make_response(jsonify({"message": "Email already exists. Choose a different email address"}))
+            message = "Email already exists. Choose a different email address"
+            log_action("register_user", "failure", message, current_user.id, {"email": data['email']})
+            response = make_response(jsonify({"message": message}))
             return response
-        
+            
         user = User(username = data['username'], email = data['email'], password = data['password'], registration_date = date.today(), block_status = 0,created_by = current_user.id)
         db.session.add(user)
         db.session.commit()
+        
+        log_action("register_user", "success", "User created successfully", current_user.id, {
+            'id': user.id,
+            'username': user.username,
+            'email': user.email,
+            'registration_date': user.registration_date.isoformat(),
+            'block_status': user.block_status,
+            'created_by': user.created_by
+        })
 
         return make_response(jsonify({'msg':'Signup Successful! User Created Successfully!',
                     'data': {
@@ -53,18 +68,29 @@ class Users:
         data = request.get_json()
         errors = LoginSchema().validate(data)
         if errors:
+            log_action("login", "failure", "Validation errors", current_user.id, errors)
             return errors, 422
 
         user = User.query.filter(((User.username == data['username_or_email']) | (User.email == data['username_or_email']))).first()
         password = User.query.filter(User.password == data['password']).first()
         
-        if not user and password :
-            return make_response(jsonify({"msg":"Invalid credentials"}))
+        if not (user and password):
+            message = "Invalid credentials"
+            log_action("login", "failure", message)
+            
+            return make_response(jsonify({"msg":message}))
         else:
             access_token = create_access_token(identity=data['username_or_email'],fresh= True)
             refresh_token = create_refresh_token(identity=data['username_or_email'])
             user.login_date = date.today()
             db.session.commit()
+            
+            log_action("login", "success", "Logged in Successfully!", current_user.id, {
+                "token":{
+                            "access_token":access_token,
+                            "refresh_token":refresh_token
+                        }
+            })
             
             return make_response(jsonify({
                                 "msg":"Logged in Successfully!",
@@ -74,8 +100,6 @@ class Users:
                                 }
                             }))
 
-
-    
     @jwt_required(verify_type = False)
     def logout(self):
         jwt = get_jwt()
