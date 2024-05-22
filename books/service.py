@@ -16,7 +16,6 @@ class BookMeta(type):
             cls._instances[cls] = instance
         return cls._instances[cls]
     
-    
 #Defining the book service with all methods
 class Book(metaclass=BookMeta):
     
