@@ -6,7 +6,7 @@ from flask_jwt_extended import JWTManager,create_access_token, create_refresh_to
 from flask_mail import Message
 from middleware import role, roles_required, access_required
 from schemas import IssueBooksSchema
-
+from issue_books.logs import log_issue_books_action
 
 class Subject:
     def __init__(self):
@@ -36,7 +36,6 @@ class EmailObserver:
         
 email_observer = EmailObserver(mail)
 
-
 class Issue_Books(Subject):
     def __init__(self):
         super().__init__()
@@ -57,25 +56,39 @@ class Issue_Books(Subject):
         data2 = Role.query.filter_by(role_name = 'Student').first()
         
         if not books_id:
+            log_issue_books_action("issue_books","failure","Book does not exist")
             return make_response(jsonify({'message':'Book does not exist'}))
         elif books_id.total_copies == 0:
+            log_issue_books_action("issue_books","failure","Book unavailable")
             return make_response(jsonify({'message':'Book unavailable'}))
         elif data1.role_id != data2.id:
+            log_issue_books_action("issue_books","failure","Invalid student id")
             return make_response(jsonify({'message':'Invalid student id'}))
         else:
             existing_borrow = Borrow.query.filter_by(student_id=data['student_id'], books_id=data['book_id']).first()
             if existing_borrow and not existing_borrow.status == 'Returned':
+                log_issue_books_action("issue_books","failure","Student has already borrowed this book")
                 return make_response(jsonify({'message': 'Student has already borrowed this book'}), 400)
             borrow_data = Borrow(issue_date = issue_date, due_date = due_date,issued_by = current_user.id,student_id = data['student_id'], books_id = data['book_id'])
             
             max_books = Borrow.query.filter((Borrow.books_id == data['book_id']) & (Borrow.status != 'Returned')).count()
             if max_books >= 2 and not(Borrow.status == 'Returned' or Borrow.status == 'Return Request Initiated'):
+                log_issue_books_action("issue_books","failure","Sorry, student cannot borrow more than 2 books")
                 return make_response(jsonify({'message':'Sorry, student cannot borrow more than 2 books'}))
                 
             db.session.add(borrow_data)
             books_id.available_copies -= 1
             db.session.commit()
 
+            log_issue_books_action("issue_books","success","Book has been issued successfully", current_user.id, {
+                'data':{
+                            'id': borrow_data.id,
+                            'issue_date': borrow_data.issue_date,
+                            'due_date': borrow_data.due_date,
+                            'issued_by':borrow_data.issued_by,
+                            'student_id': borrow_data.student_id,
+                            'book_id': borrow_data.books_id
+            }})
             return make_response(jsonify({'message':'Book has been issued successfully',
                                     'data':{
                                         'id': borrow_data.id,
@@ -98,8 +111,10 @@ class Issue_Books(Subject):
             for info2 in data3:
                 if(info2.id == id):
                     if (info2.status == 'Returned'):
+                        log_issue_books_action("initiate_return_request","failure","Book has already been returned!")
                         return jsonify({'message':'Book has already been returned!'})
                     elif (info2.status == 'Return Request Initiated'):
+                        log_issue_books_action("initiate_return_request","failure","Return Request has already been initiated!")
                         return jsonify({'message':'Return Request has already been initiated!'})
                     else:
                         data4 = Books.query.filter(Books.id == info2.books_id).first()
@@ -109,7 +124,11 @@ class Issue_Books(Subject):
                         info2.expected_return_date = current_date
                         info2.status = 'Return Request Initiated'
                         db.session.commit()
+                        
+                    log_issue_books_action("initiate_return_request","success","Return Request Initiated",current_user.id)
                     return jsonify({'message':'Return Request Initiated'})
+                
+            log_issue_books_action("initiate_return_request","failure","No data found")
             return jsonify({'message':'No data found'})
         
     @jwt_required()
@@ -124,6 +143,7 @@ class Issue_Books(Subject):
             for info2 in data3:
                 if(info2.id == id):
                     if (info2.status == 'Returned'):
+                        log_issue_books_action("return_book","failure","Book has already been returned!")
                         return jsonify({'message':'Book has already been returned!'})
                     else:
                         data4 = Books.query.filter(Books.id == info2.books_id).first()
@@ -132,7 +152,9 @@ class Issue_Books(Subject):
                         info2.return_date = current_date
                         info2.status = 'Returned'
                         db.session.commit()
+                    log_issue_books_action("return_book","success","Book has been returned successfully!",current_user.id)
                     return jsonify({'message':'Book has been returned successfully!'})
+            log_issue_books_action("return_book","failure","No data found")
             return jsonify({'message':'No data found'})
 
     @jwt_required()
@@ -151,8 +173,8 @@ class Issue_Books(Subject):
 
         for info in data:
             data1 = Books.query.filter_by(id=info.books_id).first()
-            data2 = User.query.filter_by(id=info.student_id).first() 
-            email = data2.email
+            data2 = User.query.filter_by(id=info.student_id).first()
+            # email = data2.email
             data3 = User.query.filter_by(id=info.issued_by).first()
             fine, days, current_date = calculate_fine(info.due_date)
 
@@ -171,18 +193,19 @@ class Issue_Books(Subject):
 
             response_data.append({
                 'id': info.id,
-                'issue_date': info.issue_date,
-                'due_date': info.due_date,
+                'issue_date': info.issue_date.isoformat(),
+                'due_date': info.due_date.isoformat(),
                 'issued_by': data3.username,
                 'status': info.status,
                 'student_name': data2.username,
                 'book_name': data1.title,
                 'return_date': info.return_date,
-                'message': message,
-                'email':email
+                'message': message
+                # 'email':email
             })
 
-            email_observer.update([email],info.issue_date,info.due_date,info.status,message)
+            # email_observer.update([email],info.issue_date,info.due_date,info.status,message)
+        log_issue_books_action("issued_details","success","Details",current_user.id)
         return make_response(jsonify({'data': response_data}), 200)
 
     @jwt_required()
@@ -213,8 +236,10 @@ class Issue_Books(Subject):
                                         'book_name': data3.title,
                                         'return_date':info.return_date
                                 })
+                log_issue_books_action("get_all_students_issued_details","success","Details",current_user.id)
                 return make_response(jsonify({'data': response_data}), 200)
             else:
+                log_issue_books_action("get_all_students_issued_details","failure","No data found")
                 return make_response({'message':'No data found'})
             
     @jwt_required()
@@ -243,19 +268,19 @@ class Issue_Books(Subject):
                                     'fine':info.fine,
                                     'fine_days':info.fine_days
                                 })
-            
+        log_issue_books_action("issued_details_history","success")
         return make_response(jsonify({'data': response_data}), 200)
 
-    @jwt_required()
-    @access_required(['Librarian'],['15'])
-    def send_emails(self,student_id):
-        student_id = request.get_json()
+    # @jwt_required()
+    # @access_required(['Librarian'],['15'])
+    # def send_emails(self,student_id):
+    #     student_id = request.get_json()
         
-        info = Borrow.query.filter_by(student_id = student_id).first()
-        if not info:
-            return make_response(jsonify({'msg':'U'}))
+    #     info = Borrow.query.filter_by(student_id = student_id).first()
+    #     if not info:
+    #         return make_response(jsonify({'msg':'U'}))
         
-        return make_response(jsonify({'msg':'Yes'}))
+    #     return make_response(jsonify({'msg':'Yes'}))
 
 def calculate_fine(due_date):
     current_date = date.today()

@@ -3,6 +3,7 @@ from models import db, RolesandPermissions,User,Role,Permission
 from flask_jwt_extended import jwt_required
 from middleware import roles_required
 from schemas import RolesandPermsSchema
+from roles_and_permissions.logs import log_roles_permissions_action
 
 #Defining all methods of Roles and Permissions service
 class RolesandPermission():
@@ -20,8 +21,12 @@ class RolesandPermission():
         data = result_query.order_by(RolesandPermissions.id.asc()).paginate(page=page,per_page=per_page,error_out=False)
         
         if not data:
+            log_roles_permissions_action("get_user_roles_and_permissions","failure","No data available")
             response = make_response(jsonify({'msg':'No data available'}))
         
+        log_roles_permissions_action("get_user_roles_and_permissions","success","Details",{
+                'data':[info.json() for info in data]
+        })
         response = make_response(jsonify({'data':[info.json() for info in data]}), 200)
         return response
     
@@ -30,6 +35,7 @@ class RolesandPermission():
     def create_userrolesandpermissions(self,id,data):
         info = User.query.filter_by(id=id).first()
         if not info:
+            log_roles_permissions_action("create_userrolesandpermissions","failure",'No user found, cannot add details')
             response = jsonify({'msg':'No user found, cannot add details'})
         else:
             data = request.get_json()
@@ -43,14 +49,24 @@ class RolesandPermission():
             role = Role.query.filter_by(id = data['role_id']).all()
             permission= Permission.query.filter_by(id = data['permission_ids']).all()
             if not role :
+                log_roles_permissions_action("create_userrolesandpermissions","failure",'No role id found')
                 response = jsonify({'msg':'No role id found'})
             elif not permission :
+                log_roles_permissions_action("create_userrolesandpermissions","failure",'No permission ids found')
                 response = jsonify({'msg':'No permission ids found'})
             else:
                 user_roles_and_permissions.res = info
         
                 db.session.add(user_roles_and_permissions)
                 db.session.commit()
+                
+                log_roles_permissions_action("create_userrolesandpermissions","success",'User Roles and Permissions Created Successfully!',{
+                    'data': {
+                            'id':user_roles_and_permissions.id,
+                            'user_id': user_roles_and_permissions.res.id,
+                            'role_id':user_roles_and_permissions.role_id,
+                            'permission_ids':user_roles_and_permissions.permission_ids
+                }})
                 response = jsonify({'msg':'User Roles and Permissions Created Successfully!',
                         'data': {
                             'id':user_roles_and_permissions.id,
