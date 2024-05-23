@@ -1,7 +1,4 @@
-flask
 flask-restx
-flask-sqlalchemy
-pymysql
 flask-migrate
 flask-restful
 flask-jwt-extended
@@ -11,3 +8,6 @@ marshmallow-sqlalchemy
 flask-mail
 pytest
 Flask-PyMongo
+Flask==2.0.3
+Flask-SQLAlchemy==2.5.1
+pymysql==1.0.2

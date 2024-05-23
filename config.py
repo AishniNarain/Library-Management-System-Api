@@ -2,8 +2,15 @@
 from datetime import timedelta
 import os
 
+db_user = os.getenv('DATABASE_USER')
+db_password = os.getenv('DATABASE_PASSWORD')
+db_host = os.getenv('DATABASE_HOST')
+db_name = os.getenv('DATABASE_NAME')
+
+SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{db_user}:{db_password}@{db_host}/{db_name}'
+
 SQLALCHEMY_TRACK_MODIFICATIONS = True
-SQLALCHEMY_DATABASE_URI = 'mysql://root:MyNewPass5!@localhost:3306/library_api'
+# SQLALCHEMY_DATABASE_URI = 'mysql://root:MyNewPass5!@localhost:3306/library_api'
 JWT_SECRET_KEY = 'secret'
 JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
 JWT_REFRESH_TOKEN_EXPIRES = timedelta(hours=2)
