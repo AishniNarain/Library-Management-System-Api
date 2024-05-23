@@ -2,11 +2,8 @@
 FROM python:3.8-slim
 
 # Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-ENV FLASK_APP=app.py
-ENV FLASK_ENV=development
-ENV FLASK_DEBUG=1
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
 # Create and set the working directory
 WORKDIR /app
@@ -15,8 +12,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean
 
 # Install Python dependencies
 COPY requirements.txt /app/
@@ -28,6 +24,9 @@ COPY . /app/
 
 # Expose the port the app runs on
 EXPOSE 5000
+
+# Set the environment variable for Flask
+ENV FLASK_APP=app.py
 
 # Run the Flask application
 CMD ["flask", "run", "--host=0.0.0.0"]
