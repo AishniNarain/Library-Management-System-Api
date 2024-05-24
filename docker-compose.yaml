@@ -1,0 +1,40 @@
+version: '3.0'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: flaskdb
+    networks:
+      -flask-network
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongo-db
+    ports:
+      -"27017:27017"
+    networks:
+      - flask-network
+
+  flask-app:
+    build: .
+    container_name: flask-app
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - DATABASE_URL=mysql+pymysql://root:rootpassword@mysql-db/flaskdb
+      - MONGO_URI=mongodb://mongo-db:27017/mydatabase
+    depends_on:
+      - mysql
+      - mongodb
+    networks:
+      - flask-network
+
+networks:
+  flask-network:
+    driver: bridge
