@@ -17,7 +17,7 @@ services:
     image: mongo:latest
     container_name: mongo-db
     ports:
-      - "27018:27017"
+      - "27017:27017"
     networks:
       - flask-network
 
@@ -28,8 +28,8 @@ services:
       - "5000:5000"
     environment:
       - FLASK_ENV=development
-      - DATABASE_URL=mysql+pymysql://root:rootpassword@mysql-db:3306/dbname
-      - MONGO_URI=mongodb://mongo-db:27017/mydatabase
+      - DATABASE_URL=mysql+pymysql://     root:rootpassword@mysql-db:3306/dbname
+      - MONGO_URI=mongodb://mongo-db:27017/
     depends_on:
       - mysql
       - mongodb
