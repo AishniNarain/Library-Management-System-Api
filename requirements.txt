@@ -11,3 +11,4 @@ marshmallow-sqlalchemy
 flask-mail
 pytest
 Flask-PyMongo
+cryptography
