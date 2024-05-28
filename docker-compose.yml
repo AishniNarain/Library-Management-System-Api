@@ -10,13 +10,13 @@ services:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: flaskdb
     networks:
-      -flask-network
+      - flask-network
 
   mongodb:
     image: mongo:latest
     container_name: mongo-db
     ports:
-      -"27017:27017"
+      - "27018:27017"
     networks:
       - flask-network
 
@@ -38,3 +38,4 @@ services:
 networks:
   flask-network:
     driver: bridge
+
