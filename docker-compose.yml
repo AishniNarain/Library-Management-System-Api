@@ -9,8 +9,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: dbname
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
       
     networks:
       - flask-network
@@ -30,7 +28,7 @@ services:
       - "5000:5000"
     environment:
       - FLASK_ENV=development
-      - DATABASE_URL=mysql+pymysql://user:password@mysql-db:3306/dbname
+      - DATABASE_URL=mysql+pymysql://root:rootpassword@mysql-db:3306/dbname
       - MONGO_URI=mongodb://mongo-db:27017/mydatabase
     depends_on:
       - mysql
