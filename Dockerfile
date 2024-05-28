@@ -17,5 +17,5 @@ EXPOSE 5000
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 
-# Run app.py when the container launches
+# Run app.py when the container launches using flask command
 CMD ["flask", "run", "--reload"]
