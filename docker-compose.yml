@@ -40,11 +40,13 @@ services:
     networks:
       - flask-network
 
+volumes:
+  library-data:
+    driver: local
+
 networks:
   flask-network:
     driver: bridge
 
-volumes:
-  library-data:
-    driver: local
+
 
