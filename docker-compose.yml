@@ -22,6 +22,7 @@ services:
       - flask-network
 
   flask-app:
+    image: library-app:1.0
     build: .
     # container_name: flask-app
     ports:
