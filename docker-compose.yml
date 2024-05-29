@@ -9,20 +9,21 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: dbname
-    volumes:
-      - library-data:/var/lib/mysql
     networks:
       - flask-network
+    volumes:
+      - library-data:/var/lib/mysql
 
   mongodb:
     image: mongo:latest
     container_name: mongo-db
     ports:
       - "27017:27017"
-    volumes:
-      - library-data:/data/db
     networks:
       - flask-network
+    volumes:
+      - library-data:/data/db
+    
 
   flask-app:
     image: library-app:1.0
@@ -39,6 +40,8 @@ services:
       - mongodb
     networks:
       - flask-network
+    volumes:
+      - library-data
 
 volumes:
   library-data:
