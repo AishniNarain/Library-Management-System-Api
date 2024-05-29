@@ -10,7 +10,7 @@ services:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: dbname
     volumes:
-      - library-data:/var/lib/mysql/data
+      - library-data:/var/lib/mysql
     networks:
       - flask-network
 
