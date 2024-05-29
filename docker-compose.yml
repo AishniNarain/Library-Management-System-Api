@@ -12,7 +12,7 @@ services:
     networks:
       - flask-network
     volumes:
-      - library-data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
 
   mongodb:
     image: mongo:latest
@@ -22,7 +22,7 @@ services:
     networks:
       - flask-network
     volumes:
-      - library-data:/data/db
+      - mongo-data:/data/db
     
 
   flask-app:
@@ -41,9 +41,13 @@ services:
     networks:
       - flask-network
     volumes:
-      - library-data
+      - library-data:/app
 
 volumes:
+  mysql-data:
+    driver: local
+  mongo-data:
+    driver: local
   library-data:
     driver: local
 
