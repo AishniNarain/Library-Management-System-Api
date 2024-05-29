@@ -41,7 +41,7 @@ services:
     networks:
       - flask-network
     volumes:
-      - library-data:/app
+      - library-data
 
 volumes:
   mysql-data:
