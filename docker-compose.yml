@@ -3,7 +3,7 @@ version: '3.0'
 services:
   mysql:
     image: mysql:latest
-    # container_name: mysql-db
+    container_name: mysql-db
     ports:
       - "3306:3306"
     environment:
@@ -15,7 +15,7 @@ services:
 
   mongodb:
     image: mongo:latest
-    # container_name: mongo-db
+    container_name: mongo-db
     ports:
       - "27017:27017"
     networks:
@@ -24,7 +24,7 @@ services:
   flask-app:
     image: library-app:1.0
     build: .
-    # container_name: flask-app
+    container_name: flask-app
     ports:
       - "5000:5000"
     environment:
