@@ -24,7 +24,7 @@
 # # CMD ["wait-for-it.sh", "mysql-db:3306", "--", "wait-for-it.sh", "mongo-db:27017", "--", "flask", "run", "--reload"]
 # CMD ["flask", "run", "--reload"]
 
-FROM python:latest
+# FROM python:latest
 
 # Install dependencies and add MongoDB repository
 # RUN apt-get update && \
@@ -35,6 +35,19 @@ FROM python:latest
 #     apt-get update && \
 #     apt-get install -y mysql-server mongodb-org supervisor
 
+# Use an official Python runtime as a parent image
+FROM python:3.11-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# COPY wait-for-it.sh /usr/local/bin/
+# RUN chmod +x /usr/local/bin/wait-for-it.sh
+
+# Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the supervisord configuration file
