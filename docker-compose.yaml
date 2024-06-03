@@ -111,10 +111,10 @@ services:
       - "5000:5000"
     environment:
       - FLASK_ENV=development
-      - DATABASE_URL=mysql+pymysql://root:rootpassword@multi-db:3306/dbname
-      - MONGO_URI=mongodb://multi-db:27017/
+      - DATABASE_URL=mysql+pymysql://root:rootpassword@multidb:3306/dbname
+      - MONGO_URI=mongodb://multidb:27017/
     depends_on:
-      - multi-db
+      - multi-database
     networks:
       - flask-network
     volumes:
