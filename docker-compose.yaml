@@ -102,6 +102,24 @@
 version: '3.0'
 
 services:
+
+  flask-app:
+    image: library-app:1.0
+    build: .
+    container_name: flask-app
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - DATABASE_URL=mysql+pymysql://root:rootpassword@multi-db:3306/dbname
+      - MONGO_URI=mongodb://multi-db:27017/
+    depends_on:
+      - multi-db
+    networks:
+      - flask-network
+    volumes:
+      - library-data
+
   multi-db:
     image: multi-service-db:latest
     container_name: multi-db
@@ -114,25 +132,6 @@ services:
       - multi-db-data:/var/lib/mysql
       - multi-db-data:/data/db
 
-  flask-app:
-    image: library-app:1.0
-    build: .
-    container_name: flask-app
-    ports:
-      - "5000:5000"
-      - "3306:3306"
-      - "27017:27017"
-    environment:
-      - FLASK_ENV=development
-      - DATABASE_URL=mysql+pymysql://root:rootpassword@multi-db:3306/dbname
-      - MONGO_URI=mongodb://multi-db:27017/
-    depends_on:
-      - multi-db
-    networks:
-      - flask-network
-    volumes:
-      - library-data
-
 volumes:
   multi-db-data:
     driver: local
@@ -140,3 +139,4 @@ volumes:
 networks:
   flask-network:
     driver: bridge
+
