@@ -126,6 +126,9 @@ services:
     ports:
       - "3306:3306"
       - "27017:27017"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: dbname
     networks:
       - flask-network
     volumes:
