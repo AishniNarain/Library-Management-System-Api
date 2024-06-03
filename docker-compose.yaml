@@ -121,7 +121,7 @@ services:
       - library-data
 
   multi-db:
-    image: multi-service-db:latest
+    image: multi-db:latest
     container_name: multi-db
     ports:
       - "3306:3306"
