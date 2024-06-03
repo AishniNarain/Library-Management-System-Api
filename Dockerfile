@@ -74,8 +74,13 @@ ENV FLASK_ENV=development
 #     apt-get install -y mysql-server mongodb && \
 #     apt-get clean
 
-# Install Flask and other Python dependencies
 # RUN pip install flask pymysql pymongo
+
+# Copy your Flask app code into the container
+WORKDIR /app
+COPY . /app
+
+# Install Flask and other Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Set up MySQL and MongoDB configuration if necessary
@@ -85,10 +90,6 @@ RUN apt-get update && apt-get install -y supervisor
 
 # Copy the supervisord configuration file
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Copy your Flask app code into the container
-WORKDIR /app
-COPY . /app
 
 # Expose the Flask app port
 EXPOSE 5000
