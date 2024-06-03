@@ -132,13 +132,9 @@ services:
       - flask-network
     volumes:
       - library-data
-      - multi-db-data:/var/lib/mysql
-      - multi-db-data:/data/db
 
 volumes:
   multi-db-data:
-    driver: local
-  library-data:
     driver: local
 
 networks:
