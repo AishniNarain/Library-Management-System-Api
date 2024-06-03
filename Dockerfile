@@ -35,32 +35,32 @@
 #     apt-get update && \
 #     apt-get install -y mysql-server mongodb-org supervisor
 
-# Use an official Python runtime as a parent image
-FROM python:3.11-slim
+# # Use an official Python runtime as a parent image
+# FROM python:3.11-slim
 
-# Set the working directory in the container
-WORKDIR /app
+# # Set the working directory in the container
+# WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# # Copy the current directory contents into the container at /app
+# COPY . /app
 
-# COPY wait-for-it.sh /usr/local/bin/
-# RUN chmod +x /usr/local/bin/wait-for-it.sh
+# # COPY wait-for-it.sh /usr/local/bin/
+# # RUN chmod +x /usr/local/bin/wait-for-it.sh
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# # Install any needed packages specified in requirements.txt
+# RUN pip install --no-cache-dir -r requirements.txt
 
-# Install supervisord
-RUN apt-get update && apt-get install -y supervisor
+# # Install supervisord
+# RUN apt-get update && apt-get install -y supervisor
 
-# Copy the supervisord configuration file
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# # Copy the supervisord configuration file
+# COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Expose ports for MySQL and MongoDB
-EXPOSE 3306 27017
+# # Expose ports for MySQL and MongoDB
+# EXPOSE 3306 27017
 
-# Command to run supervisord
-CMD ["/usr/bin/supervisord"]
+# # Command to run supervisord
+# CMD ["/usr/bin/supervisord"]
 
 
 # Use a base image with Python and necessary dependencies
@@ -70,9 +70,9 @@ FROM python:3.9
 ENV FLASK_ENV=development
 
 # Install required packages for MySQL and MongoDB
-RUN apt-get update && \
-    apt-get install -y mysql-server mongodb && \
-    apt-get clean
+# RUN apt-get update && \
+#     apt-get install -y mysql-server mongodb && \
+#     apt-get clean
 
 # Install Flask and other Python dependencies
 # RUN pip install flask pymysql pymongo
@@ -86,7 +86,6 @@ RUN apt-get update && apt-get install -y supervisor
 # Copy the supervisord configuration file
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-
 # Copy your Flask app code into the container
 WORKDIR /app
 COPY . /app
@@ -95,7 +94,8 @@ COPY . /app
 EXPOSE 5000
 
 # Command to run your Flask app
-CMD ["python", "app.py"]
+CMD ["flask", "run", "--reload"]
+
 
 
 
