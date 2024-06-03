@@ -30,7 +30,8 @@ FROM ubuntu:latest
 RUN apt-get update && \
     apt-get install -y gnupg wget lsb-release curl && \
     wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - && \
-    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/4.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list && \
+    CODENAME=$(lsb_release -cs) && \
+    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $CODENAME/mongodb-org/4.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list && \
     apt-get update && \
     apt-get install -y mysql-server mongodb-org supervisor
 
@@ -42,6 +43,7 @@ EXPOSE 3306 27017
 
 # Command to run supervisord
 CMD ["/usr/bin/supervisord"]
+
 
 
 
