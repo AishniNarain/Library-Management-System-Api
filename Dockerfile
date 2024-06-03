@@ -63,5 +63,41 @@ EXPOSE 3306 27017
 CMD ["/usr/bin/supervisord"]
 
 
+# Use a base image with Python and necessary dependencies
+FROM python:3.9
+
+# Set environment variables
+ENV FLASK_ENV=development
+
+# Install required packages for MySQL and MongoDB
+RUN apt-get update && \
+    apt-get install -y mysql-server mongodb && \
+    apt-get clean
+
+# Install Flask and other Python dependencies
+# RUN pip install flask pymysql pymongo
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Set up MySQL and MongoDB configuration if necessary
+# (e.g., create databases, users, etc.)
+
+RUN apt-get update && apt-get install -y supervisor
+
+# Copy the supervisord configuration file
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+
+# Copy your Flask app code into the container
+WORKDIR /app
+COPY . /app
+
+# Expose the Flask app port
+EXPOSE 5000
+
+# Command to run your Flask app
+CMD ["python", "app.py"]
+
+
+
 
 
