@@ -120,7 +120,7 @@ services:
     volumes:
       - library-data
 
-  multi-db:
+  multi-database:
     image: mysql:latest
     container_name: multi-db
     ports:
