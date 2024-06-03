@@ -121,14 +121,11 @@ services:
       - library-data
 
   multi-database:
-    image: mysql:latest
+    image: multidb
     container_name: multidb
     ports:
       - "3306:3306"
       - "27017:27017"
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: dbname
     networks:
       - flask-network
     volumes:
@@ -142,4 +139,3 @@ volumes:
 networks:
   flask-network:
     driver: bridge
-
