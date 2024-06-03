@@ -1,29 +1,76 @@
+# version: '3.0'
+
+# services:
+#   mysql:
+#     image: mysql:latest
+#     container_name: mysql-db
+#     ports:
+#       - "3306:3306"
+#     environment:
+#       MYSQL_ROOT_PASSWORD: rootpassword
+#       MYSQL_DATABASE: dbname
+#     networks:
+#       - flask-network
+#     volumes:
+#       - mysql-data:/var/lib/mysql
+
+#   mongodb:
+#     image: mongo:latest
+#     container_name: mongo-db
+#     ports:
+#       - "27017:27017"
+#     networks:
+#       - flask-network
+#     volumes:
+#       - mongo-data:/data/db
+    
+
+#   flask-app:
+#     image: library-app:1.0
+#     build: .
+#     container_name: flask-app
+#     ports:
+#       - "5000:5000"
+#     environment:
+#       - FLASK_ENV=development
+#       - DATABASE_URL=mysql+pymysql://root:rootpassword@mysql-db:3306/dbname
+#       - MONGO_URI=mongodb://mongo-db:27017/
+#     depends_on:
+#       - mysql
+#       - mongodb
+#     networks:
+#       - flask-network
+#     volumes:
+#       - library-data
+
+# volumes:
+#   mysql-data:
+#     driver: local
+#   mongo-data:
+#     driver: local
+#   library-data:
+#     driver: local
+
+# networks:
+#   flask-network:
+#     driver: bridge
+
+
+
 version: '3.0'
 
 services:
-  mysql:
-    image: mysql:latest
-    container_name: mysql-db
+  multi-db:
+    image: multi-service-db:latest
+    container_name: multi-db
     ports:
       - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: dbname
-    networks:
-      - flask-network
-    volumes:
-      - mysql-data:/var/lib/mysql
-
-  mongodb:
-    image: mongo:latest
-    container_name: mongo-db
-    ports:
       - "27017:27017"
     networks:
       - flask-network
     volumes:
-      - mongo-data:/data/db
-    
+      - multi-db-data:/var/lib/mysql
+      - multi-db-data:/data/db
 
   flask-app:
     image: library-app:1.0
@@ -33,20 +80,17 @@ services:
       - "5000:5000"
     environment:
       - FLASK_ENV=development
-      - DATABASE_URL=mysql+pymysql://root:rootpassword@mysql-db:3306/dbname
-      - MONGO_URI=mongodb://mongo-db:27017/
+      - DATABASE_URL=mysql+pymysql://root:rootpassword@multi-db:3306/dbname
+      - MONGO_URI=mongodb://multi-db:27017/
     depends_on:
-      - mysql
-      - mongodb
+      - multi-db
     networks:
       - flask-network
     volumes:
       - library-data
 
 volumes:
-  mysql-data:
-    driver: local
-  mongo-data:
+  multi-db-data:
     driver: local
   library-data:
     driver: local
@@ -54,6 +98,3 @@ volumes:
 networks:
   flask-network:
     driver: bridge
-
-
-
