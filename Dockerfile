@@ -24,7 +24,7 @@
 # # CMD ["wait-for-it.sh", "mysql-db:3306", "--", "wait-for-it.sh", "mongo-db:27017", "--", "flask", "run", "--reload"]
 # CMD ["flask", "run", "--reload"]
 
-FROM ubuntu:latest
+FROM python:latest
 
 # Install dependencies and add MongoDB repository
 # RUN apt-get update && \
