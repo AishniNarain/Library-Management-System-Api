@@ -27,11 +27,12 @@
 FROM fedora:latest
 
 # Install dependencies and add MongoDB repository
+# Install dependencies and add MongoDB repository
 RUN dnf install -y dnf-plugins-core && \
     dnf config-manager --add-repo https://repo.mongodb.org/yum/redhat/8/mongodb-org/4.4/x86_64/ && \
     dnf install -y mysql-server supervisor && \
-    dnf install -y mongodb-org --disablerepo=fedora --enablerepo=mongodb-org-4.4
-
+    dnf install -y mongodb-org
+    
 # Copy the supervisord configuration file
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
