@@ -27,13 +27,15 @@
 FROM ubuntu:latest
 
 # Install dependencies and add MongoDB repository
-RUN apt-get update && \
-    apt-get install -y gnupg wget lsb-release curl && \
-    wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - && \
-    CODENAME=$(lsb_release -cs) && \
-    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $CODENAME/mongodb-org/4.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list && \
-    apt-get update && \
-    apt-get install -y mysql-server mongodb-org supervisor
+# RUN apt-get update && \
+#     apt-get install -y gnupg wget lsb-release curl && \
+#     wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - && \
+#     CODENAME=$(lsb_release -cs) && \
+#     echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $CODENAME/mongodb-org/4.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list && \
+#     apt-get update && \
+#     apt-get install -y mysql-server mongodb-org supervisor
+
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the supervisord configuration file
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf

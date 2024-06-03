@@ -12,3 +12,4 @@ flask-mail
 pytest
 Flask-PyMongo
 cryptography
+supervisor
