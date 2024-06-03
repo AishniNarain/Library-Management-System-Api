@@ -121,7 +121,7 @@ services:
       - library-data
 
   multi-db:
-    image: multi-database:latest
+    image: mysql:latest
     container_name: multi-db
     ports:
       - "3306:3306"
