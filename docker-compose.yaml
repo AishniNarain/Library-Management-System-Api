@@ -122,7 +122,7 @@ services:
 
   multi-database:
     image: mysql:latest
-    container_name: multi-db
+    container_name: multidb
     ports:
       - "3306:3306"
       - "27017:27017"
