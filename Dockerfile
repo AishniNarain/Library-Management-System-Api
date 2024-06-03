@@ -24,15 +24,16 @@
 # # CMD ["wait-for-it.sh", "mysql-db:3306", "--", "wait-for-it.sh", "mongo-db:27017", "--", "flask", "run", "--reload"]
 # CMD ["flask", "run", "--reload"]
 
-FROM fedora:latest
+FROM ubuntu:latest
 
 # Install dependencies and add MongoDB repository
-# Install dependencies and add MongoDB repository
-RUN dnf install -y dnf-plugins-core && \
-    dnf config-manager --add-repo https://repo.mongodb.org/yum/redhat/8/mongodb-org/4.4/x86_64/ && \
-    dnf install -y mysql-server supervisor && \
-    dnf install -y mongodb-org
-    
+RUN apt-get update && \
+    apt-get install -y gnupg wget lsb-release curl && \
+    wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - && \
+    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/4.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list && \
+    apt-get update && \
+    apt-get install -y mysql-server mongodb-org supervisor
+
 # Copy the supervisord configuration file
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
@@ -41,5 +42,6 @@ EXPOSE 3306 27017
 
 # Command to run supervisord
 CMD ["/usr/bin/supervisord"]
+
 
 
