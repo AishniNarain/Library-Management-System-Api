@@ -113,4 +113,6 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 EXPOSE 5000 3306 27017
 
 # Start supervisord
-CMD ["/usr/bin/supervisord"]
+# CMD ["/usr/bin/supervisord"]
+RUN echo user=root >>  /etc/supervisor/supervisord.conf
+CMD ["/usr/bin/supervisord","-n"]
