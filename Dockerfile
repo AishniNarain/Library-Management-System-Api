@@ -94,9 +94,8 @@
 # # Start supervisord
 # CMD ["/usr/bin/supervisord"]
 
-
 # Use an official Python runtime as a parent image
-FROM python:3.9-slim
+FROM python:3.9-slim as base
 
 # Set the working directory in the container
 WORKDIR /app
@@ -104,38 +103,51 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-
 # Install dependencies
-RUN apt-get update && \
-    apt-get install -y gnupg wget lsb-release
+RUN apt-get update && apt-get install -y \
+    gnupg \
+    wget \
+    lsb-release \
+    supervisor
 
-# Add MySQL APT repository and install MySQL server
-RUN wget https://dev.mysql.com/get/mysql-apt-config_0.8.16-1_all.deb && \
-    dpkg -i mysql-apt-config_0.8.16-1_all.deb && \
-    apt-get update && \
-    apt-get install -y mysql-server
-
-# Add MongoDB APT repository and install MongoDB
-RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - && \
-    echo "deb http://repo.mongodb.org/apt/debian $(lsb_release -sc)/mongodb-org/4.4 main" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list && \
-    apt-get update && \
-    apt-get install -y mongodb-org
-# Install dependencies
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-
-# apt-get update && \
-    # apt-get install -y mysql-server mongodb supervisor && \
 
 # Create supervisor configuration file
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Environment variables
 ENV FLASK_ENV=development
-ENV DATABASE_URL=mysql+pymysql://root:rootpassword@mysql:3306/dbname
-ENV MONGO_URI=mongodb://mongo:27017/
+ENV DATABASE_URL=mysql+pymysql://root:rootpassword@localhost:3306/dbname
+ENV MONGO_URI=mongodb://localhost:27017/
 
 # Expose the ports
 EXPOSE 5000 3306 27017
 
+# MySQL stage
+FROM mysql:latest as mysql
+
+# MongoDB stage
+FROM mongo:latest as mongo
+
+# Copy the MySQL and MongoDB binaries to the base image
+COPY --from=mysql /usr/bin /usr/bin
+COPY --from=mysql /usr/sbin /usr/sbin
+COPY --from=mysql /var/lib/mysql /var/lib/mysql
+
+COPY --from=mongo /usr/bin /usr/bin
+COPY --from=mongo /usr/sbin /usr/sbin
+COPY --from=mongo /var/lib/mongodb /var/lib/mongodb
+
+# Use base image
+FROM base
+
+# Copy MySQL and MongoDB data directories
+COPY --from=mysql /var/lib/mysql /var/lib/mysql
+COPY --from=mongo /var/lib/mongodb /var/lib/mongodb
+
 # Command to run supervisor
 CMD ["/usr/bin/supervisord"]
+
+
+
