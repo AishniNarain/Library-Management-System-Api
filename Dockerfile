@@ -111,7 +111,8 @@ RUN apt-get update && apt-get install -y \
     supervisor \
     libaio1 \
     libncurses5 \
-    curl
+    curl \
+    xz-utils
 
 # Install MySQL from tarball
 RUN wget https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.28-linux-glibc2.12-x86_64.tar.xz && \
