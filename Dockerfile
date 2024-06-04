@@ -111,8 +111,8 @@ RUN apt-get update && apt-get install -y \
     supervisor
 
 # Install MySQL and MongoDB
-RUN apt-get update && \
-    apt-get install -y mysql-server mongodb
+# RUN apt-get update && \
+#     apt-get install -y mysql-server mongodb
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
