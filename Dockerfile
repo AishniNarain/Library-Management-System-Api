@@ -120,8 +120,7 @@ RUN wget https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.28-linux-glibc2
     mv mysql-8.0.28-linux-glibc2.12-x86_64 /usr/local/mysql && \
     ln -s /usr/local/mysql/bin/* /usr/local/bin/ && \
     mkdir /usr/local/mysql/mysql-files && \
-    chmod 750 /usr/local/mysql/mysql-files && \
-    chown -R mysql:mysql /usr/local/mysql
+    chmod 750 /usr/local/mysql/mysql-files
 
 # Install MongoDB from tarball
 RUN wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-4.4.18.tgz && \
