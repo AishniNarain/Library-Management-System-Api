@@ -69,10 +69,6 @@
 # Use an official Python runtime as a parent image
 FROM python:3.9-slim
 
-# Install dependencies
-RUN apt-get update && \
-    apt-get install supervisor
-
 # Set environment variables
 ENV MYSQL_ROOT_PASSWORD=rootpassword
 ENV MYSQL_DATABASE=dbname
