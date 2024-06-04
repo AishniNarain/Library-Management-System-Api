@@ -82,16 +82,16 @@ RUN apt-get update && \
     lsb-release \
     supervisor
 
-# Install MySQL
-RUN apt-get install -y mysql-server && \
-    mkdir -p /var/run/mysqld && \
-    chown -R mysql:mysql /var/run/mysqld && \
-    chmod 777 /var/run/mysqld
+# # Install MySQL
+# RUN apt-get install -y mysql-server && \
+#     mkdir -p /var/run/mysqld && \
+#     chown -R mysql:mysql /var/run/mysqld && \
+#     chmod 777 /var/run/mysqld
 
-# Install MongoDB
-RUN apt-get install -y mongodb && \
-    mkdir -p /data/db && \
-    chown -R mongodb:mongodb /data/db
+# # Install MongoDB
+# RUN apt-get install -y mongodb && \
+#     mkdir -p /data/db && \
+#     chown -R mongodb:mongodb /data/db
 
 # Set environment variables
 ENV MYSQL_ROOT_PASSWORD=rootpassword
