@@ -71,27 +71,7 @@ FROM python:3.9-slim
 
 # Install dependencies
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    gcc \
-    default-libmysqlclient-dev \
-    libssl-dev \
-    build-essential \
-    curl \
-    wget \
-    gnupg \
-    lsb-release \
-    supervisor
-
-# # Install MySQL
-# RUN apt-get install -y mysql-server && \
-#     mkdir -p /var/run/mysqld && \
-#     chown -R mysql:mysql /var/run/mysqld && \
-#     chmod 777 /var/run/mysqld
-
-# # Install MongoDB
-# RUN apt-get install -y mongodb && \
-#     mkdir -p /data/db && \
-#     chown -R mongodb:mongodb /data/db
+    apt-get install supervisor
 
 # Set environment variables
 ENV MYSQL_ROOT_PASSWORD=rootpassword
@@ -113,6 +93,4 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 EXPOSE 5000 3306 27017
 
 # Start supervisord
-# CMD ["/usr/bin/supervisord"]
-RUN echo user=root >>  /etc/supervisor/supervisord.conf
-CMD ["/usr/bin/supervisord","-n"]
+CMD ["/usr/bin/supervisord"]
