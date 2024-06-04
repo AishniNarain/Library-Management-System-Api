@@ -129,7 +129,9 @@ ENV MONGO_URI=mongodb://localhost:27017/
 EXPOSE 5000 3306 27017
 
 # Command to run supervisor
-CMD ["/usr/bin/supervisord"]
+# CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+
 
 
 
