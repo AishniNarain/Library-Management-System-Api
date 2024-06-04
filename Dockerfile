@@ -104,10 +104,31 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
+# Install dependencies and necessary tools
+RUN apt-get update && apt-get install -y \
+    wget \
+    gnupg \
+    lsb-release \
+    && apt-get clean
+
+# Add MySQL APT repository and install MySQL
+RUN wget https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb && \
+    dpkg -i mysql-apt-config_0.8.22-1_all.deb && \
+    apt-get update && \
+    apt-get install -y mysql-server && \
+    rm mysql-apt-config_0.8.22-1_all.deb
+
+# Add MongoDB APT repository and install MongoDB
+RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - && \
+    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list && \
+    apt-get update && \
+    apt-get install -y mongodb-org
+
 # Install dependencies
-RUN apt-get update && \
-    apt-get install -y mysql-server mongodb supervisor && \
-    pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# apt-get update && \
+    # apt-get install -y mysql-server mongodb supervisor && \
 
 # Create supervisor configuration file
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
