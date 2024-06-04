@@ -104,7 +104,6 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Install dependencies and necessary tools
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
@@ -114,6 +113,7 @@ RUN apt-get update && apt-get install -y \
 # Add MySQL APT repository and install MySQL
 RUN wget https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb && \
     dpkg -i mysql-apt-config_0.8.22-1_all.deb && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8C718D3B5072E1F5 && \
     apt-get update && \
     apt-get install -y mysql-server && \
     rm mysql-apt-config_0.8.22-1_all.deb
