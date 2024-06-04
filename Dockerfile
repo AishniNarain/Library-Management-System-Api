@@ -63,48 +63,53 @@
 # CMD ["/usr/bin/supervisord"]
 
 
-# Use a base image with Python and necessary dependencies
-FROM python:3.9
+
+
+
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
+
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    gcc \
+    default-libmysqlclient-dev \
+    libssl-dev \
+    build-essential \
+    curl \
+    wget \
+    gnupg \
+    lsb-release \
+    supervisor
+
+# Install MySQL
+RUN apt-get install -y mysql-server && \
+    mkdir -p /var/run/mysqld && \
+    chown -R mysql:mysql /var/run/mysqld && \
+    chmod 777 /var/run/mysqld
+
+# Install MongoDB
+RUN apt-get install -y mongodb && \
+    mkdir -p /data/db && \
+    chown -R mongodb:mongodb /data/db
 
 # Set environment variables
-ENV FLASK_ENV=development
+ENV MYSQL_ROOT_PASSWORD=rootpassword
+ENV MYSQL_DATABASE=dbname
+ENV FLASK_APP = app.py
 
-# Install required packages for MySQL and MongoDB
-# RUN apt-get update && \
-#     apt-get install -y mysql-server mongodb && \
-#     apt-get clean
-
-# RUN pip install flask pymysql pymongo
-
-# Copy your Flask app code into the container
+# Copy the current directory contents into the container at /app
 WORKDIR /app
 COPY . /app
 
-# Install Flask and other Python dependencies
+# Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Set up MySQL and MongoDB configuration if necessary
-# (e.g., create databases, users, etc.)
-
-RUN apt-get update && apt-get install -y supervisor
-
-# Copy the supervisord configuration file
+# Copy supervisor configuration
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Expose the Flask app port
-EXPOSE 5000
-EXPOSE 3306
-EXPOSE 27017
+# Expose the service ports
+EXPOSE 5000 3306 27017
 
-# # Set environment variables for Flask
-ENV FLASK_APP=app.py
-ENV FLASK_RUN_HOST=0.0.0.0
-
-# Command to run your Flask app
-CMD ["flask", "run", "--reload"]
-
-
-
-
-
-
+# Start supervisord
+CMD ["/usr/bin/supervisord"]
