@@ -110,17 +110,18 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     wget \
     lsb-release \
-    supervisor
+    supervisor \
+    curl
 
 # Add MySQL APT repository and install MySQL server
-RUN wget https://dev.mysql.com/get/mysql-apt-config_0.8.16-1_all.deb && \
-    DEBIAN_FRONTEND=noninteractive dpkg -i mysql-apt-config_0.8.16-1_all.deb && \
+RUN curl -fsSL https://repo.mysql.com/RPM-GPG-KEY-mysql-2022 | gpg --dearmor -o /usr/share/keyrings/mysql-keyring.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/mysql-keyring.gpg] http://repo.mysql.com/apt/debian/ $(lsb_release -sc) mysql-apt-config" | tee /etc/apt/sources.list.d/mysql.list && \
     apt-get update && \
     apt-get install -y mysql-server
 
 # Add MongoDB APT repository and install MongoDB
-RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - && \
-    echo "deb http://repo.mongodb.org/apt/debian $(lsb_release -sc)/mongodb-org/4.4 main" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list && \
+RUN curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | gpg --dearmor -o /usr/share/keyrings/mongodb-keyring.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/mongodb-keyring.gpg] http://repo.mongodb.org/apt/debian $(lsb_release -sc)/mongodb-org/4.4 main" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list && \
     apt-get update && \
     apt-get install -y mongodb-org
 
