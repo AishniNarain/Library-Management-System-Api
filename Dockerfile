@@ -104,26 +104,22 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-RUN apt-get update && apt-get install -y \
-    wget \
-    gnupg \
-    lsb-release \
-    && apt-get clean
 
-# Add MySQL APT repository and install MySQL
-RUN wget https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb && \
-    dpkg -i mysql-apt-config_0.8.22-1_all.deb && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8C718D3B5072E1F5 && \
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y gnupg wget lsb-release
+
+# Add MySQL APT repository and install MySQL server
+RUN wget https://dev.mysql.com/get/mysql-apt-config_0.8.16-1_all.deb && \
+    dpkg -i mysql-apt-config_0.8.16-1_all.deb && \
     apt-get update && \
-    apt-get install -y mysql-server && \
-    rm mysql-apt-config_0.8.22-1_all.deb
+    apt-get install -y mysql-server
 
 # Add MongoDB APT repository and install MongoDB
 RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - && \
-    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list && \
+    echo "deb http://repo.mongodb.org/apt/debian $(lsb_release -sc)/mongodb-org/4.4 main" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list && \
     apt-get update && \
     apt-get install -y mongodb-org
-
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
