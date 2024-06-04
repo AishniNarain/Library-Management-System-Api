@@ -123,10 +123,12 @@ RUN wget https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.28-linux-glibc2
     chmod 750 /usr/local/mysql/mysql-files
 
 # Install MongoDB from tarball
+# Install MongoDB from tarball
 RUN wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-4.4.18.tgz && \
     tar -zxvf mongodb-linux-x86_64-4.4.18.tgz && \
     mv mongodb-linux-x86_64-4.4.18 /usr/local/mongodb && \
     ln -s /usr/local/mongodb/bin/* /usr/local/bin/
+
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
