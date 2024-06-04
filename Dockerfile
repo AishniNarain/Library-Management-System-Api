@@ -95,7 +95,7 @@
 # CMD ["/usr/bin/supervisord"]
 
 # Use an official Python runtime as a parent image
-FROM python:3.9-slim as base
+FROM python:3.9-slim
 
 # Set the working directory in the container
 WORKDIR /app
@@ -110,6 +110,10 @@ RUN apt-get update && apt-get install -y \
     lsb-release \
     supervisor
 
+# Install MySQL and MongoDB
+RUN apt-get update && \
+    apt-get install -y mysql-server mongodb
+
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -123,28 +127,6 @@ ENV MONGO_URI=mongodb://localhost:27017/
 
 # Expose the ports
 EXPOSE 5000 3306 27017
-
-# MySQL stage
-FROM mysql:latest as mysql
-
-# MongoDB stage
-FROM mongo:latest as mongo
-
-# Copy the MySQL and MongoDB binaries to the base image
-COPY --from=mysql /usr/bin /usr/bin
-COPY --from=mysql /usr/sbin /usr/sbin
-COPY --from=mysql /var/lib/mysql /var/lib/mysql
-
-COPY --from=mongo /usr/bin /usr/bin
-COPY --from=mongo /usr/sbin /usr/sbin
-COPY --from=mongo /var/lib/mongodb /var/lib/mongodb
-
-# Use base image
-FROM base
-
-# Copy MySQL and MongoDB data directories
-COPY --from=mysql /var/lib/mysql /var/lib/mysql
-COPY --from=mongo /var/lib/mongodb /var/lib/mongodb
 
 # Command to run supervisor
 CMD ["/usr/bin/supervisord"]
