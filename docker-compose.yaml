@@ -99,51 +99,80 @@
 #   flask-network:
 #     driver: bridge
 
+# version: '3.0'
+
+# services:
+#   flask-app:
+#     image: library-app:1.0
+#     build: .
+#     container_name: flask-app
+#     ports:
+#       - "5000:5000"
+#     environment:
+#       - FLASK_ENV=development
+#       - DATABASE_URL=mysql+pymysql://root:rootpassword@mysql:3306/dbname
+#       - MONGO_URI=mongodb://mongo:27017/
+#     depends_on:
+#       - mysql
+#       - mongo
+#     networks:
+#       - flask-network
+#     volumes:
+#       - library-data
+
+#   mysql:
+#     image: mysql:latest
+#     container_name: mysql
+#     environment:
+#       MYSQL_ROOT_PASSWORD: rootpassword
+#       MYSQL_DATABASE: dbname
+#     ports:
+#       - "3306:3306"
+#     networks:
+#       - flask-network
+#     volumes:
+#       - mysql-data:/var/lib/mysql
+
+#   mongo:
+#     image: mongo:latest
+#     container_name: mongo
+#     ports:
+#       - "27017:27017"
+#     networks:
+#       - flask-network
+#     volumes:
+#       - mongo-data:/data/db
+
+# volumes:
+#   mysql-data:
+#     driver: local
+#   mongo-data:
+#     driver: local
+
+# networks:
+#   flask-network:
+#     driver: bridge
+
 version: '3.0'
 
 services:
   flask-app:
-    image: library-app:1.0
     build: .
     container_name: flask-app
     ports:
       - "5000:5000"
-    environment:
-      - FLASK_ENV=development
-      - DATABASE_URL=mysql+pymysql://root:rootpassword@mysql:3306/dbname
-      - MONGO_URI=mongodb://mongo:27017/
-    depends_on:
-      - mysql
-      - mongo
-    networks:
-      - flask-network
-    volumes:
-      - library-data
-
-  mysql:
-    image: mysql:latest
-    container_name: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: dbname
-    ports:
       - "3306:3306"
-    networks:
-      - flask-network
-    volumes:
-      - mysql-data:/var/lib/mysql
-
-  mongo:
-    image: mongo:latest
-    container_name: mongo
-    ports:
       - "27017:27017"
     networks:
       - flask-network
     volumes:
+      - library-data
+      - mysql-data:/var/lib/mysql
       - mongo-data:/data/db
 
 volumes:
+  library-data:
+    driver: local
   mysql-data:
     driver: local
   mongo-data:
@@ -152,3 +181,4 @@ volumes:
 networks:
   flask-network:
     driver: bridge
+

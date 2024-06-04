@@ -66,30 +66,59 @@
 
 
 
+# # Use an official Python runtime as a parent image
+# FROM python:3.9-slim
+
+# # Set environment variables
+# ENV MYSQL_ROOT_PASSWORD=rootpassword
+# ENV MYSQL_DATABASE=dbname
+# ENV FLASK_APP = app.py
+# ENV FLASK_RUN_HOST=0.0.0.0
+
+# # Copy the current directory contents into the container at /app
+# WORKDIR /app
+# COPY . /app
+
+# # Install any needed packages specified in requirements.txt
+# RUN pip install --no-cache-dir -r requirements.txt
+
+# # Install supervisord
+# RUN apt-get update && apt-get install -y supervisor
+
+# # Copy supervisor configuration
+# COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# # Expose the service ports
+# EXPOSE 5000 3306 27017
+
+# # Start supervisord
+# CMD ["/usr/bin/supervisord"]
+
+
 # Use an official Python runtime as a parent image
 FROM python:3.9-slim
 
-# Set environment variables
-ENV MYSQL_ROOT_PASSWORD=rootpassword
-ENV MYSQL_DATABASE=dbname
-ENV FLASK_APP = app.py
-ENV FLASK_RUN_HOST=0.0.0.0
+# Set the working directory in the container
+WORKDIR /app
 
 # Copy the current directory contents into the container at /app
-WORKDIR /app
 COPY . /app
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y mysql-server mongodb supervisor && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Install supervisord
-RUN apt-get update && apt-get install -y supervisor
-
-# Copy supervisor configuration
+# Create supervisor configuration file
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Expose the service ports
+# Environment variables
+ENV FLASK_ENV=development
+ENV DATABASE_URL=mysql+pymysql://root:rootpassword@mysql:3306/dbname
+ENV MONGO_URI=mongodb://mongo:27017/
+
+# Expose the ports
 EXPOSE 5000 3306 27017
 
-# Start supervisord
+# Command to run supervisor
 CMD ["/usr/bin/supervisord"]
