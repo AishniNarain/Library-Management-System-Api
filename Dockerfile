@@ -94,6 +94,8 @@
 # # Start supervisord
 # CMD ["/usr/bin/supervisord"]
 
+
+
 # Use an official Python runtime as a parent image
 FROM python:3.9-slim
 
@@ -110,9 +112,17 @@ RUN apt-get update && apt-get install -y \
     lsb-release \
     supervisor
 
-# Install MySQL and MongoDB
-# RUN apt-get update && \
-#     apt-get install -y mysql-server mongodb
+# Add MySQL APT repository and install MySQL server
+RUN wget https://dev.mysql.com/get/mysql-apt-config_0.8.16-1_all.deb && \
+    DEBIAN_FRONTEND=noninteractive dpkg -i mysql-apt-config_0.8.16-1_all.deb && \
+    apt-get update && \
+    apt-get install -y mysql-server
+
+# Add MongoDB APT repository and install MongoDB
+RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - && \
+    echo "deb http://repo.mongodb.org/apt/debian $(lsb_release -sc)/mongodb-org/4.4 main" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list && \
+    apt-get update && \
+    apt-get install -y mongodb-org
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
@@ -129,9 +139,4 @@ ENV MONGO_URI=mongodb://localhost:27017/
 EXPOSE 5000 3306 27017
 
 # Command to run supervisor
-# CMD ["/usr/bin/supervisord"]
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
-
-
-
-
