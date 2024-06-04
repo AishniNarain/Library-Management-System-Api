@@ -97,6 +97,7 @@ RUN apt-get update && \
 ENV MYSQL_ROOT_PASSWORD=rootpassword
 ENV MYSQL_DATABASE=dbname
 ENV FLASK_APP = app.py
+ENV FLASK_RUN_HOST=0.0.0.0
 
 # Copy the current directory contents into the container at /app
 WORKDIR /app
