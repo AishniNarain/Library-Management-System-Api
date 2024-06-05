@@ -4,7 +4,7 @@ import os
 
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 # SQLALCHEMY_DATABASE_URI = 'mysql://root:MyNewPass5!@localhost:3306/library_api'
-SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:rootpassword@mysql:3306/dbname'
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:rootpassword@localhost:3306/dbname'
 JWT_SECRET_KEY = 'secret'
 JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
 JWT_REFRESH_TOKEN_EXPIRES = timedelta(hours=2)
