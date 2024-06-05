@@ -75,6 +75,7 @@ COPY . /app
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     wget \
+    gnupg \
     supervisor \
     libaio1 \
     libncurses5 \
@@ -91,28 +92,32 @@ RUN wget https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.28-linux-glibc2
 
 # Install MongoDB from tarball
 # Download MongoDB
-RUN wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu2004-4.4.18.tgz && \
-    tar -zxvf mongodb-linux-x86_64-ubuntu2004-4.4.18.tgz && \
-    mv mongodb-linux-x86_64-ubuntu2004-4.4.18 /usr/local/mongodb && \
-    ln -s /usr/local/mongodb/bin/* /usr/local/bin/
-# RUN wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-4.4.18.tgz && \
-#     tar -zxvf mongodb-linux-x86_64-4.4.18.tgz && \
-#     mv mongodb-linux-x86_64-4.4.18 /usr/local/mongodb && \
+# RUN wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu2004-4.4.18.tgz && \
+#     tar -zxvf mongodb-linux-x86_64-ubuntu2004-4.4.18.tgz && \
+#     mv mongodb-linux-x86_64-ubuntu2004-4.4.18 /usr/local/mongodb && \
 #     ln -s /usr/local/mongodb/bin/* /usr/local/bin/
-
-# # Add MongoDB GPG key and repository
-# RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - && \
-#     echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 
 # # Update package list again
 # RUN apt-get update
 
 # Install MongoDB
-RUN apt-get install -y mongodb-org=4.4.18 mongodb-org-server=4.4.18 mongodb-org-shell=4.4.18 mongodb-org-mongos=4.4.18 mongodb-org-tools=4.4.18
+# RUN apt-get install -y mongodb-org=4.4.18 mongodb-org-server=4.4.18 mongodb-org-shell=4.4.18 mongodb-org-mongos=4.4.18 mongodb-org-tools=4.4.18
 
 # Clean up
 # RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
+
+RUN curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - && \
+    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+
+# Update package list again
+RUN apt-get update
+
+# Install MongoDB
+RUN apt-get install -y mongodb-org=4.4.18 mongodb-org-server=4.4.18 mongodb-org-shell=4.4.18 mongodb-org-mongos=4.4.18 mongodb-org-tools=4.4.18
+
+# Clean up
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
