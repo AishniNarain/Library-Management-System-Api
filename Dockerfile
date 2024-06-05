@@ -104,20 +104,25 @@ RUN wget https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.28-linux-glibc2
 # RUN apt-get install -y mongodb-org=4.4.18 mongodb-org-server=4.4.18 mongodb-org-shell=4.4.18 mongodb-org-mongos=4.4.18 mongodb-org-tools=4.4.18
 
 # Clean up
-# RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-
+# Add MongoDB GPG key and repository
 RUN curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - && \
     echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 
 # Update package list again
 RUN apt-get update
 
+# Install libssl1.1 manually
+RUN wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.16_amd64.deb && \
+    dpkg -i libssl1.1_1.1.1f-1ubuntu2.16_amd64.deb && \
+    rm libssl1.1_1.1.1f-1ubuntu2.16_amd64.deb
+
 # Install MongoDB
 RUN apt-get install -y mongodb-org=4.4.18 mongodb-org-server=4.4.18 mongodb-org-shell=4.4.18 mongodb-org-mongos=4.4.18 mongodb-org-tools=4.4.18
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
