@@ -126,3 +126,18 @@
 2024-06-06 15:35:36,485 INFO spawnerr: can't find command '/app/start.sh'
 2024-06-06 15:35:36,485 INFO gave up: flask-app entered FATAL state, too many start retries too quickly
 2024-06-06 15:35:46,499 WARN received SIGINT indicating exit request
+2024-06-06 10:10:10,300 WARN received SIGTERM indicating exit request
+2024-06-06 15:46:23,858 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-06-06 15:46:23,861 INFO supervisord started with pid 54688
+2024-06-06 15:46:24,862 INFO spawnerr: can't find command '/app/start.sh'
+2024-06-06 15:46:25,864 INFO spawnerr: can't find command '/app/start.sh'
+2024-06-06 15:46:27,866 INFO spawnerr: can't find command '/app/start.sh'
+2024-06-06 15:46:30,870 INFO spawnerr: can't find command '/app/start.sh'
+2024-06-06 15:46:30,870 INFO gave up: flask-app entered FATAL state, too many start retries too quickly
+2024-06-06 15:49:41,097 WARN received SIGINT indicating exit request
+2024-06-06 15:51:57,696 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-06-06 15:51:57,697 INFO supervisord started with pid 57408
+2024-06-06 15:51:58,698 INFO spawnerr: can't find command '/app/start.sh'
+2024-06-06 15:51:59,700 INFO spawnerr: can't find command '/app/start.sh'
+2024-06-06 15:52:01,704 INFO spawnerr: can't find command '/app/start.sh'
+2024-06-06 15:52:03,706 WARN received SIGINT indicating exit request
