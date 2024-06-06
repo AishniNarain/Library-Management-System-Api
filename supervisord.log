@@ -105,3 +105,5 @@
 2024-06-06 09:54:56,510 INFO spawned: 'flask-app' with pid 19
 2024-06-06 09:54:56,517 WARN exited: flask-app (exit status 127; not expected)
 2024-06-06 09:54:57,519 INFO gave up: flask-app entered FATAL state, too many start retries too quickly
+2024-06-06 09:57:25,708 INFO reaped unknown pid 26 (terminated by SIGKILL)
+2024-06-06 09:57:31,716 WARN received SIGTERM indicating exit request
