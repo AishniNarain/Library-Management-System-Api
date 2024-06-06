@@ -43,13 +43,26 @@ RUN apt-get update && apt-get install -y \
     curl \
     xz-utils
 
-# Install MySQL from tarball
+# # Install MySQL from tarball
+# RUN wget https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.28-linux-glibc2.12-x86_64.tar.xz && \
+#     tar -xvf mysql-8.0.28-linux-glibc2.12-x86_64.tar.xz && \
+#     mv mysql-8.0.28-linux-glibc2.12-x86_64 /usr/local/mysql && \
+#     ln -s /usr/local/mysql/bin/* /usr/local/bin/ && \
+#     mkdir /usr/local/mysql/mysql-files && \
+#     chmod 750 /usr/local/mysql/mysql-files
+
+    # Install MySQL from tarball
 RUN wget https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.28-linux-glibc2.12-x86_64.tar.xz && \
-    tar -xvf mysql-8.0.28-linux-glibc2.12-x86_64.tar.xz && \
-    mv mysql-8.0.28-linux-glibc2.12-x86_64 /usr/local/mysql && \
-    ln -s /usr/local/mysql/bin/* /usr/local/bin/ && \
-    mkdir /usr/local/mysql/mysql-files && \
-    chmod 750 /usr/local/mysql/mysql-files
+tar -xvf mysql-8.0.28-linux-glibc2.12-x86_64.tar.xz && \
+mv mysql-8.0.28-linux-glibc2.12-x86_64 /usr/local/mysql && \
+ln -s /usr/local/mysql/bin/* /usr/local/bin/ && \
+mkdir /usr/local/mysql/mysql-files && \
+chmod 750 /usr/local/mysql/mysql-files && \
+/usr/local/mysql/bin/mysqld --initialize --user=mysql && \
+/usr/local/mysql/bin/mysql_ssl_rsa_setup && \
+chown -R root /usr/local/mysql/mysql-files/ && \
+chown -R mysql:mysql /usr/local/mysql/ && \
+/usr/local/mysql/bin/mysqld_safe --user=mysql &
 
 # Add MongoDB GPG key and repository
 RUN curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - && \
