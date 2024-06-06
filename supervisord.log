@@ -1,0 +1,15 @@
+2024-06-06 11:42:44,695 INFO supervisord started with pid 12325
+2024-06-06 11:42:45,700 INFO spawnerr: unknown error making dispatchers for 'flask-app': EACCES
+2024-06-06 11:42:46,702 INFO spawnerr: unknown error making dispatchers for 'flask-app': EACCES
+2024-06-06 11:42:48,706 INFO spawnerr: unknown error making dispatchers for 'flask-app': EACCES
+2024-06-06 11:42:51,711 INFO spawnerr: unknown error making dispatchers for 'flask-app': EACCES
+2024-06-06 11:42:51,712 INFO gave up: flask-app entered FATAL state, too many start retries too quickly
+2024-06-06 11:42:54,716 WARN received SIGINT indicating exit request
+2024-06-06 11:43:31,492 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-06-06 11:43:31,493 INFO supervisord started with pid 12399
+2024-06-06 11:43:32,495 INFO spawnerr: can't find command 'flask'
+2024-06-06 11:43:33,497 INFO spawnerr: can't find command 'flask'
+2024-06-06 11:43:35,500 INFO spawnerr: can't find command 'flask'
+2024-06-06 11:43:38,505 INFO spawnerr: can't find command 'flask'
+2024-06-06 11:43:38,505 INFO gave up: flask-app entered FATAL state, too many start retries too quickly
+2024-06-06 11:43:46,516 WARN received SIGINT indicating exit request

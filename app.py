@@ -77,5 +77,5 @@ from roles_and_permissions import route
 from issue_books import route
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0',port=5000,debug=True)
     # app.run(ssl_context=('cert.pem', 'key.pem'))
