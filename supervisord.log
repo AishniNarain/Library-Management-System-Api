@@ -33,3 +33,14 @@
 2024-06-06 07:31:24,732 WARN exited: flask-app (exit status 127; not expected)
 2024-06-06 07:31:25,734 INFO gave up: flask-app entered FATAL state, too many start retries too quickly
 2024-06-06 07:44:09,710 WARN received SIGTERM indicating exit request
+2024-06-06 07:46:32,673 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-06-06 07:46:32,674 INFO supervisord started with pid 1
+2024-06-06 07:46:33,678 INFO spawned: 'flask-app' with pid 7
+2024-06-06 07:46:33,690 WARN exited: flask-app (exit status 127; not expected)
+2024-06-06 07:46:34,691 INFO spawned: 'flask-app' with pid 9
+2024-06-06 07:46:34,697 WARN exited: flask-app (exit status 127; not expected)
+2024-06-06 07:46:36,700 INFO spawned: 'flask-app' with pid 11
+2024-06-06 07:46:36,709 WARN exited: flask-app (exit status 127; not expected)
+2024-06-06 07:46:39,713 INFO spawned: 'flask-app' with pid 13
+2024-06-06 07:46:39,723 WARN exited: flask-app (exit status 127; not expected)
+2024-06-06 07:46:40,723 INFO gave up: flask-app entered FATAL state, too many start retries too quickly
