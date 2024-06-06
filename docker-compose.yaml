@@ -71,7 +71,7 @@ services:
       - "/home/aishni.narain@intelegencia.com/Desktop/Library System Api/Library-Management-System-Api:/app"
       - mysql-data:/var/lib/mysql
       - mongo-data:/data/db
-    command: supervisord -c /app/supervisord.conf
+    command: supervisord -c /app/start.sh
 
 volumes:
   library-data:
