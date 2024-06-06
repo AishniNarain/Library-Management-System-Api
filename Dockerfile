@@ -80,8 +80,8 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Environment variables
 ENV FLASK_ENV=development
-ENV DATABASE_URL=mysql+pymysql://root:rootpassword@localhost:3306/dbname
-ENV MONGO_URI=mongodb://localhost:27017/
+ENV DATABASE_URL=mysql+pymysql://root:rootpassword@mysql:3306/dbname
+ENV MONGO_URI=mongodb://mongo:27017/
 
 # Expose the ports
 EXPOSE 5000 3306 27017
