@@ -1,31 +1,5 @@
-# # Use an official Python runtime as a parent image
-# FROM python:3.11-slim
-
-# # Set the working directory in the container
-# WORKDIR /app
-
-# # Copy the current directory contents into the container at /app
-# COPY . /app
-
-# # COPY wait-for-it.sh /usr/local/bin/
-# # RUN chmod +x /usr/local/bin/wait-for-it.sh
-
-# # Install any needed packages specified in requirements.txt
-# RUN pip install --no-cache-dir -r requirements.txt
-
-# # Make port 5000 available to the world outside this container
-# EXPOSE 5000
-
-# # Set environment variables for Flask
-# ENV FLASK_APP=app.py
-# ENV FLASK_RUN_HOST=0.0.0.0
-
-# # Run app.py when the container launches using flask command as below
-# # CMD ["wait-for-it.sh", "mysql-db:3306", "--", "wait-for-it.sh", "mongo-db:27017", "--", "flask", "run", "--reload"]
-# CMD ["flask", "run", "--reload"]
-
 # Use an official Python runtime as a parent image
-FROM python:3.9-slim
+FROM python:3.11-slim
 
 # Set the working directory in the container
 WORKDIR /app
@@ -41,28 +15,21 @@ RUN apt-get update && apt-get install -y \
     libaio1 \
     libncurses5 \
     curl \
-    xz-utils
+    xz-utils \
+    libnuma1
 
-# # Install MySQL from tarball
-# RUN wget https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.28-linux-glibc2.12-x86_64.tar.xz && \
-#     tar -xvf mysql-8.0.28-linux-glibc2.12-x86_64.tar.xz && \
-#     mv mysql-8.0.28-linux-glibc2.12-x86_64 /usr/local/mysql && \
-#     ln -s /usr/local/mysql/bin/* /usr/local/bin/ && \
-#     mkdir /usr/local/mysql/mysql-files && \
-#     chmod 750 /usr/local/mysql/mysql-files
-
-    # Install MySQL from tarball
+# Install MySQL from tarball
 RUN wget https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.28-linux-glibc2.12-x86_64.tar.xz && \
-tar -xvf mysql-8.0.28-linux-glibc2.12-x86_64.tar.xz && \
-mv mysql-8.0.28-linux-glibc2.12-x86_64 /usr/local/mysql && \
-ln -s /usr/local/mysql/bin/* /usr/local/bin/ && \
-mkdir /usr/local/mysql/mysql-files && \
-chmod 750 /usr/local/mysql/mysql-files && \
-/usr/local/mysql/bin/mysqld --initialize --user=mysql && \
-/usr/local/mysql/bin/mysql_ssl_rsa_setup && \
-chown -R root /usr/local/mysql/mysql-files/ && \
-chown -R mysql:mysql /usr/local/mysql/ && \
-/usr/local/mysql/bin/mysqld_safe --user=mysql &
+    tar -xvf mysql-8.0.28-linux-glibc2.12-x86_64.tar.xz && \
+    mv mysql-8.0.28-linux-glibc2.12-x86_64 /usr/local/mysql && \
+    ln -s /usr/local/mysql/bin/* /usr/local/bin/ && \
+    mkdir /usr/local/mysql/mysql-files && \
+    chmod 750 /usr/local/mysql/mysql-files && \
+    useradd -r -s /bin/false mysql && \
+    chown -R mysql:mysql /usr/local/mysql && \
+    /usr/local/mysql/bin/mysqld --initialize-insecure --user=mysql && \
+    /usr/local/mysql/bin/mysql_ssl_rsa_setup && \
+    chown -R mysql:mysql /usr/local/mysql/mysql-files
 
 # Add MongoDB GPG key and repository
 RUN curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - && \
@@ -93,9 +60,6 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Environment variables
 ENV FLASK_ENV=development
-ENV DATABASE_URL=mysql+pymysql://root:rootpassword@mysql:3306/dbname
-ENV MONGO_URI=mongodb://mongo:27017/
-
 # Expose the ports
 EXPOSE 5000 3306 27017
 

@@ -155,3 +155,258 @@
 2024-06-06 16:21:05,958 INFO spawnerr: can't find command '/app/start.sh'
 2024-06-06 16:21:08,962 INFO spawnerr: can't find command '/app/start.sh'
 2024-06-06 16:21:08,962 INFO gave up: flask-app entered FATAL state, too many start retries too quickly
+2024-06-06 11:30:30,596 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-06-06 11:30:30,597 INFO supervisord started with pid 1
+2024-06-06 11:30:31,601 INFO spawned: 'flask' with pid 7
+2024-06-06 11:30:31,603 INFO spawned: 'mongodb' with pid 8
+2024-06-06 11:30:31,605 INFO spawned: 'mysql' with pid 9
+2024-06-06 11:30:32,053 WARN exited: mongodb (exit status 62; not expected)
+2024-06-06 11:30:33,243 INFO success: flask entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-06 11:30:33,246 INFO spawned: 'mongodb' with pid 144
+2024-06-06 11:30:33,246 INFO success: mysql entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-06 11:30:33,533 WARN exited: mongodb (exit status 62; not expected)
+2024-06-06 11:30:35,537 INFO spawned: 'mongodb' with pid 168
+2024-06-06 11:30:35,831 WARN exited: mongodb (exit status 62; not expected)
+2024-06-06 11:30:38,838 INFO spawned: 'mongodb' with pid 192
+2024-06-06 11:30:39,151 WARN exited: mongodb (exit status 62; not expected)
+2024-06-06 11:30:40,152 INFO gave up: mongodb entered FATAL state, too many start retries too quickly
+2024-06-06 11:40:35,916 WARN received SIGTERM indicating exit request
+2024-06-06 11:40:35,918 INFO waiting for flask, mysql to die
+2024-06-06 11:40:38,923 INFO waiting for flask, mysql to die
+2024-06-06 11:40:41,928 INFO waiting for flask, mysql to die
+2024-06-06 11:40:44,932 INFO waiting for flask, mysql to die
+2024-06-06 11:48:06,949 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-06-06 11:48:06,950 INFO supervisord started with pid 1
+2024-06-06 11:48:07,955 INFO spawned: 'flask' with pid 7
+2024-06-06 11:48:07,958 INFO spawned: 'mongodb' with pid 8
+2024-06-06 11:48:07,958 INFO spawned: 'mysql' with pid 9
+2024-06-06 11:48:08,378 WARN exited: mongodb (exit status 62; not expected)
+2024-06-06 11:48:09,511 INFO success: flask entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-06 11:48:09,513 INFO spawned: 'mongodb' with pid 144
+2024-06-06 11:48:09,513 INFO success: mysql entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-06 11:48:09,835 WARN exited: mongodb (exit status 62; not expected)
+2024-06-06 11:48:11,840 INFO spawned: 'mongodb' with pid 168
+2024-06-06 11:48:12,119 WARN exited: mongodb (exit status 62; not expected)
+2024-06-06 11:48:15,126 INFO spawned: 'mongodb' with pid 192
+2024-06-06 11:48:15,421 WARN exited: mongodb (exit status 62; not expected)
+2024-06-06 11:48:16,423 INFO gave up: mongodb entered FATAL state, too many start retries too quickly
+2024-06-06 12:12:17,333 WARN received SIGTERM indicating exit request
+2024-06-06 12:12:17,336 INFO waiting for flask, mysql to die
+2024-06-06 12:12:20,341 INFO waiting for flask, mysql to die
+2024-06-06 12:12:23,346 INFO waiting for flask, mysql to die
+2024-06-06 12:12:26,351 INFO waiting for flask, mysql to die
+2024-06-06 12:26:35,139 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-06-06 12:26:35,140 INFO supervisord started with pid 1
+2024-06-06 12:26:36,143 INFO spawned: 'flask' with pid 7
+2024-06-06 12:26:36,145 INFO spawned: 'mongodb' with pid 8
+2024-06-06 12:26:36,147 INFO spawned: 'mysqld' with pid 9
+2024-06-06 12:26:36,580 WARN exited: mongodb (exit status 62; not expected)
+2024-06-06 12:26:37,852 INFO success: flask entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-06 12:26:37,856 INFO spawned: 'mongodb' with pid 81
+2024-06-06 12:26:37,856 INFO success: mysqld entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-06 12:26:38,171 WARN exited: mongodb (exit status 62; not expected)
+2024-06-06 12:26:40,176 INFO spawned: 'mongodb' with pid 105
+2024-06-06 12:26:40,491 WARN exited: mongodb (exit status 62; not expected)
+2024-06-06 12:26:43,497 INFO spawned: 'mongodb' with pid 129
+2024-06-06 12:26:43,817 WARN exited: mongodb (exit status 62; not expected)
+2024-06-06 12:26:44,818 INFO gave up: mongodb entered FATAL state, too many start retries too quickly
+2024-06-06 12:33:35,362 WARN received SIGTERM indicating exit request
+2024-06-06 12:33:35,365 INFO waiting for flask, mysqld to die
+2024-06-06 12:33:38,400 INFO stopped: mysqld (exit status 0)
+2024-06-06 12:33:38,400 INFO waiting for flask to die
+2024-06-06 12:33:39,411 WARN stopped: flask (terminated by SIGTERM)
+2024-06-06 12:35:41,260 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-06-06 12:35:41,261 INFO supervisord started with pid 1
+2024-06-06 12:35:42,266 INFO spawned: 'flask' with pid 7
+2024-06-06 12:35:42,268 INFO spawned: 'mongodb' with pid 8
+2024-06-06 12:35:42,268 INFO spawned: 'mysqld' with pid 9
+2024-06-06 12:35:42,640 WARN exited: mongodb (exit status 62; not expected)
+2024-06-06 12:35:43,833 INFO success: flask entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-06 12:35:43,837 INFO spawned: 'mongodb' with pid 81
+2024-06-06 12:35:43,837 INFO success: mysqld entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-06 12:35:44,126 WARN exited: mongodb (exit status 62; not expected)
+2024-06-06 12:35:46,132 INFO spawned: 'mongodb' with pid 105
+2024-06-06 12:35:46,410 WARN exited: mongodb (exit status 62; not expected)
+2024-06-06 12:35:49,418 INFO spawned: 'mongodb' with pid 129
+2024-06-06 12:35:49,705 WARN exited: mongodb (exit status 62; not expected)
+2024-06-06 12:35:50,707 INFO gave up: mongodb entered FATAL state, too many start retries too quickly
+2024-06-06 13:43:15,599 WARN received SIGTERM indicating exit request
+2024-06-06 13:43:15,601 INFO waiting for flask, mysqld to die
+2024-06-06 13:43:16,813 INFO stopped: mysqld (exit status 0)
+2024-06-06 13:43:17,823 WARN stopped: flask (terminated by SIGTERM)
+2024-06-07 06:11:45,494 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-06-07 06:11:45,495 INFO supervisord started with pid 1
+2024-06-07 06:11:46,504 INFO spawned: 'flask' with pid 7
+2024-06-07 06:11:46,506 INFO spawned: 'mongodb' with pid 8
+2024-06-07 06:11:46,507 INFO spawned: 'mysqld' with pid 9
+2024-06-07 06:11:46,965 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 06:11:48,253 INFO success: flask entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-07 06:11:48,256 INFO spawned: 'mongodb' with pid 81
+2024-06-07 06:11:48,257 INFO success: mysqld entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-07 06:11:48,530 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 06:11:50,535 INFO spawned: 'mongodb' with pid 105
+2024-06-07 06:11:50,828 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 06:11:53,836 INFO spawned: 'mongodb' with pid 129
+2024-06-07 06:11:54,136 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 06:11:55,137 INFO gave up: mongodb entered FATAL state, too many start retries too quickly
+2024-06-07 06:27:42,408 WARN received SIGTERM indicating exit request
+2024-06-07 06:27:42,410 INFO waiting for flask, mysqld to die
+2024-06-07 06:27:43,844 INFO stopped: mysqld (exit status 0)
+2024-06-07 06:27:44,854 WARN stopped: flask (terminated by SIGTERM)
+2024-06-07 11:34:15,708 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-06-07 11:34:15,710 INFO supervisord started with pid 1
+2024-06-07 11:34:16,717 INFO spawned: 'flask' with pid 7
+2024-06-07 11:34:16,720 INFO spawned: 'mongodb' with pid 8
+2024-06-07 11:34:16,721 INFO spawned: 'mysqld' with pid 9
+2024-06-07 11:34:17,144 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 11:34:18,437 INFO success: flask entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-07 11:34:18,439 INFO spawned: 'mongodb' with pid 81
+2024-06-07 11:34:18,440 INFO success: mysqld entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-07 11:34:18,735 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 11:34:20,738 INFO spawned: 'mongodb' with pid 105
+2024-06-07 11:34:21,060 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 11:34:24,067 INFO spawned: 'mongodb' with pid 129
+2024-06-07 11:34:24,354 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 11:34:25,356 INFO gave up: mongodb entered FATAL state, too many start retries too quickly
+2024-06-07 11:37:47,624 WARN received SIGTERM indicating exit request
+2024-06-07 11:37:47,625 INFO waiting for flask, mysqld to die
+2024-06-07 11:37:48,672 INFO stopped: mysqld (exit status 0)
+2024-06-07 11:37:49,680 WARN stopped: flask (terminated by SIGTERM)
+2024-06-07 12:19:24,102 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-06-07 12:19:24,104 INFO supervisord started with pid 1
+2024-06-07 12:19:25,128 INFO spawned: 'flask' with pid 7
+2024-06-07 12:19:25,131 INFO spawned: 'mongodb' with pid 8
+2024-06-07 12:19:25,132 INFO spawned: 'mysqld' with pid 9
+2024-06-07 12:19:25,575 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 12:19:26,811 INFO success: flask entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-07 12:19:26,813 INFO spawned: 'mongodb' with pid 81
+2024-06-07 12:19:26,814 INFO success: mysqld entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-07 12:19:27,111 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 12:19:29,116 INFO spawned: 'mongodb' with pid 105
+2024-06-07 12:19:29,412 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 12:19:32,420 INFO spawned: 'mongodb' with pid 129
+2024-06-07 12:19:32,740 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 12:19:33,742 INFO gave up: mongodb entered FATAL state, too many start retries too quickly
+2024-06-07 12:22:20,950 WARN received SIGTERM indicating exit request
+2024-06-07 12:22:20,951 INFO waiting for flask, mysqld to die
+2024-06-07 12:22:23,955 INFO waiting for flask, mysqld to die
+2024-06-07 12:22:24,254 INFO stopped: mysqld (exit status 0)
+2024-06-07 12:22:25,262 WARN stopped: flask (terminated by SIGTERM)
+2024-06-07 12:23:02,012 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-06-07 12:23:02,013 INFO supervisord started with pid 1
+2024-06-07 12:23:03,017 INFO spawned: 'flask' with pid 7
+2024-06-07 12:23:03,019 INFO spawned: 'mongodb' with pid 8
+2024-06-07 12:23:03,020 INFO spawned: 'mysqld' with pid 9
+2024-06-07 12:23:03,368 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 12:23:04,595 INFO success: flask entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-07 12:23:04,598 INFO spawned: 'mongodb' with pid 81
+2024-06-07 12:23:04,599 INFO success: mysqld entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-07 12:23:04,879 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 12:23:06,886 INFO spawned: 'mongodb' with pid 105
+2024-06-07 12:23:07,178 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 12:23:10,186 INFO spawned: 'mongodb' with pid 135
+2024-06-07 12:23:10,485 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 12:23:11,486 INFO gave up: mongodb entered FATAL state, too many start retries too quickly
+2024-06-07 12:25:05,741 INFO reaped unknown pid 167 (terminated by SIGKILL)
+2024-06-07 12:26:02,816 WARN received SIGTERM indicating exit request
+2024-06-07 12:26:02,817 INFO waiting for flask, mysqld to die
+2024-06-07 12:26:04,110 INFO stopped: mysqld (exit status 0)
+2024-06-07 12:26:05,121 WARN stopped: flask (terminated by SIGTERM)
+2024-06-07 13:08:20,390 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-06-07 13:08:20,392 INFO supervisord started with pid 1
+2024-06-07 13:08:21,396 INFO spawned: 'flask' with pid 7
+2024-06-07 13:08:21,399 INFO spawned: 'mongodb' with pid 8
+2024-06-07 13:08:21,399 INFO spawnerr: can't find command '/usr/sbin/mysqld'
+2024-06-07 13:08:21,756 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:08:23,027 INFO success: flask entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-07 13:08:23,031 INFO spawned: 'mongodb' with pid 34
+2024-06-07 13:08:23,032 INFO spawnerr: can't find command '/usr/sbin/mysqld'
+2024-06-07 13:08:23,310 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:08:25,316 INFO spawned: 'mongodb' with pid 58
+2024-06-07 13:08:25,316 INFO spawnerr: can't find command '/usr/sbin/mysqld'
+2024-06-07 13:08:25,621 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:08:28,628 INFO spawned: 'mongodb' with pid 82
+2024-06-07 13:08:28,629 INFO spawnerr: can't find command '/usr/sbin/mysqld'
+2024-06-07 13:08:28,629 INFO gave up: mysql entered FATAL state, too many start retries too quickly
+2024-06-07 13:08:28,915 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:08:29,916 INFO gave up: mongodb entered FATAL state, too many start retries too quickly
+2024-06-07 13:08:50,943 WARN received SIGTERM indicating exit request
+2024-06-07 13:08:50,943 INFO waiting for flask to die
+2024-06-07 13:08:52,954 WARN stopped: flask (terminated by SIGTERM)
+2024-06-07 13:09:01,333 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-06-07 13:09:01,334 INFO supervisord started with pid 1
+2024-06-07 13:09:02,339 INFO spawned: 'flask' with pid 7
+2024-06-07 13:09:02,341 INFO spawned: 'mongodb' with pid 8
+2024-06-07 13:09:02,341 INFO spawnerr: can't find command '/usr/sbin/mysqld'
+2024-06-07 13:09:02,651 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:09:03,761 INFO success: flask entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-07 13:09:03,762 INFO spawned: 'mongodb' with pid 34
+2024-06-07 13:09:03,762 INFO spawnerr: can't find command '/usr/sbin/mysqld'
+2024-06-07 13:09:04,048 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:09:06,053 INFO spawned: 'mongodb' with pid 58
+2024-06-07 13:09:06,054 INFO spawnerr: can't find command '/usr/sbin/mysqld'
+2024-06-07 13:09:06,358 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:09:09,364 INFO spawned: 'mongodb' with pid 82
+2024-06-07 13:09:09,365 INFO spawnerr: can't find command '/usr/sbin/mysqld'
+2024-06-07 13:09:09,365 INFO gave up: mysql entered FATAL state, too many start retries too quickly
+2024-06-07 13:09:09,692 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:09:10,694 INFO gave up: mongodb entered FATAL state, too many start retries too quickly
+2024-06-07 13:09:31,722 WARN received SIGTERM indicating exit request
+2024-06-07 13:09:31,722 INFO waiting for flask to die
+2024-06-07 13:09:33,734 WARN stopped: flask (terminated by SIGTERM)
+2024-06-07 13:14:17,683 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-06-07 13:14:17,685 INFO supervisord started with pid 1
+2024-06-07 13:14:18,689 INFO spawned: 'flask' with pid 7
+2024-06-07 13:14:18,692 INFO spawned: 'mongodb' with pid 8
+2024-06-07 13:14:18,692 INFO spawnerr: can't find command '/usr/bin/mysqld'
+2024-06-07 13:14:19,099 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:14:20,322 INFO success: flask entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-07 13:14:20,324 INFO spawned: 'mongodb' with pid 34
+2024-06-07 13:14:20,325 INFO spawnerr: can't find command '/usr/bin/mysqld'
+2024-06-07 13:14:20,613 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:14:22,618 INFO spawned: 'mongodb' with pid 58
+2024-06-07 13:14:22,619 INFO spawnerr: can't find command '/usr/bin/mysqld'
+2024-06-07 13:14:22,927 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:14:25,934 INFO spawned: 'mongodb' with pid 82
+2024-06-07 13:14:25,935 INFO spawnerr: can't find command '/usr/bin/mysqld'
+2024-06-07 13:14:25,935 INFO gave up: mysql entered FATAL state, too many start retries too quickly
+2024-06-07 13:14:26,254 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:14:27,255 INFO gave up: mongodb entered FATAL state, too many start retries too quickly
+2024-06-07 13:15:14,319 WARN received SIGTERM indicating exit request
+2024-06-07 13:15:14,321 INFO waiting for flask to die
+2024-06-07 13:15:16,332 WARN stopped: flask (terminated by SIGTERM)
+2024-06-07 13:20:27,470 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-06-07 13:20:27,473 INFO supervisord started with pid 1
+2024-06-07 13:20:28,479 INFO spawned: 'flask' with pid 7
+2024-06-07 13:20:28,480 INFO spawned: 'mongodb' with pid 8
+2024-06-07 13:20:28,481 INFO spawned: 'mysqld' with pid 9
+2024-06-07 13:20:28,937 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:20:30,157 INFO success: flask entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-07 13:20:30,159 INFO spawned: 'mongodb' with pid 81
+2024-06-07 13:20:30,160 INFO success: mysqld entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-07 13:20:30,455 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:20:32,460 INFO spawned: 'mongodb' with pid 105
+2024-06-07 13:20:32,758 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:20:35,764 INFO spawned: 'mongodb' with pid 129
+2024-06-07 13:20:36,070 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:20:37,072 INFO gave up: mongodb entered FATAL state, too many start retries too quickly
+2024-06-07 13:34:54,178 WARN received SIGTERM indicating exit request
+2024-06-07 13:34:54,179 INFO waiting for flask, mysqld to die
+2024-06-07 13:34:56,702 INFO stopped: mysqld (exit status 0)
+2024-06-07 13:34:57,703 INFO waiting for flask to die
+2024-06-07 13:34:57,713 WARN stopped: flask (terminated by SIGTERM)
+2024-06-07 13:35:51,717 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-06-07 13:35:51,718 INFO supervisord started with pid 1
+2024-06-07 13:35:52,722 INFO spawned: 'flask' with pid 7
+2024-06-07 13:35:52,725 INFO spawned: 'mongodb' with pid 8
+2024-06-07 13:35:52,725 INFO spawned: 'mysqld' with pid 9
+2024-06-07 13:35:53,072 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:35:54,172 INFO success: flask entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-07 13:35:54,175 INFO spawned: 'mongodb' with pid 81
+2024-06-07 13:35:54,176 INFO success: mysqld entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-07 13:35:54,452 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:35:56,457 INFO spawned: 'mongodb' with pid 105
+2024-06-07 13:35:56,758 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:35:59,765 INFO spawned: 'mongodb' with pid 129
+2024-06-07 13:36:00,077 WARN exited: mongodb (exit status 62; not expected)
+2024-06-07 13:36:01,078 INFO gave up: mongodb entered FATAL state, too many start retries too quickly
