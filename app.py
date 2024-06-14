@@ -7,6 +7,7 @@ from pymongo import MongoClient
 from sqlalchemy import or_
 from extensions import db,ma,mail
 from models import TokenBlockList,User
+import os
 
 jwt = JWTManager()
 
@@ -23,9 +24,8 @@ ma.init_app(app)
 migrate = Migrate(app, db)
 mail.init_app(app)
 
-client = MongoClient("mongodb://localhost:27017/")
 # mongodb://172.29.0.2:27017/ for mongo-compass
-# client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient("mongodb://127.0.0.1:27018/")
 
 api = Api(app,version='1.0', title='Library Management System Api',description='This is a sample API documentation for Library Management System. This documentation will provide all details related to the operations performed in a library.')
 ns = api.namespace('api/v1', description="Version 1.0 of API")

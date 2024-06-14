@@ -13,3 +13,4 @@ pytest
 Flask-PyMongo
 cryptography
 supervisor
+pymongo
