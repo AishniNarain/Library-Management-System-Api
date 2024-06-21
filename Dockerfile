@@ -51,7 +51,7 @@ RUN curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add -
     apt-get install -y mongodb-org=4.4.18 mongodb-org-server=4.4.18 mongodb-org-shell=4.4.18 mongodb-org-mongos=4.4.18 mongodb-org-tools=4.4.18 && \
     rm -rf /var/lib/apt/lists/*
 
-# Create MongoDB data directory
+# # Create MongoDB data directory
 RUN mkdir -p /data/db && chown -R mongodb:mongodb /data/db
 
 # Copy MongoDB configuration file
